@@ -1,0 +1,12 @@
+.profile__subtitle {
+  margin: 9px 0 0 0;
+  padding: 0;
+  max-width: 336px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.22;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
