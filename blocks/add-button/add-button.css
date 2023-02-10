@@ -6,3 +6,10 @@
   background-color: transparent;
   margin-left: auto;
 }
+
+@media screen and (max-width: 750px) {
+  .add-button {
+    margin: auto;
+    width: 282px;
+  }  
+}
