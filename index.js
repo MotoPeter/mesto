@@ -46,10 +46,17 @@ function saveTextPopup() {
 
 //находим элемент кнопка сохранить
 const popupSave = document.querySelector('.popup__save');
+
 //при нажатии кнопки сохранить
 popupSave.addEventListener('click', function(evt) {
   //отменяем стандартную отправку формы
   evt.preventDefault();
+  //вызываем функцию закрытия попапа и записи изменений
+  saveChangesProfile();
+})
+
+//функция записи изменений в профиле
+function saveChangesProfile() {
   //удаляем у popup класс для его закрытия
   editPopup.classList.remove('popup_openend')
   //записываем новое имя из value элемента ввода имени popup
@@ -60,4 +67,21 @@ popupSave.addEventListener('click', function(evt) {
   let popupOcupationNew = popupInputOcupation.value;
   //присваиваем текстовому полю элемента с родом занятий новое значение из ввода popup
   profileOcupationElement.textContent = popupOcupationNew;
-})
+}
+
+//ловим событие в инпуте редактирования имени нажатия на клавишу
+  document.querySelector('.popup__input-name').addEventListener('keydown', function(e) {
+    //если нажали ентер
+    if (e.keyCode === 13) {
+      //вызываем функцию записи изменений профиля
+      saveChangesProfile()
+    }  
+});
+
+document.querySelector('.popup__input-ocupation').addEventListener('keydown', function(e) {
+  //если нажали ентер
+  if (e.keyCode === 13) {
+    //вызываем функцию записи изменений профиля
+    saveChangesProfile()
+  }  
+});
