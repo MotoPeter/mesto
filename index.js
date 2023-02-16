@@ -6,6 +6,7 @@ const editPopup = document.querySelector('.popup');
 profileEditButton.addEventListener('click', function() {
   //добавляем класс что бы popup стал видимым
   editPopup.classList.add('popup_openend')
+  //вызываем функцию для обновления value инпутов
   saveTextPopup();
 })
 
@@ -25,25 +26,23 @@ let profileNameElement = document.querySelector('.profile__name');
 //находим элемент ввода имени в popup
 let popupInputName = document.querySelector('.popup__input-name');
 
-
 //находим элемент род занятий
 let profileOcupationElement = document.querySelector('.profile__ocupation');
 
 //находим элемент ввода рода занятий в popup
 let popupInputOcupation = document.querySelector('.popup__input-ocupation');
 
-
+//создаем функцию для записи в value инпутов текста из профиля
 function saveTextPopup() {
   //из элемента с именем выделяем текст
-let popupUserName = profileNameElement.textContent;
+  let popupUserName = profileNameElement.textContent;
   //меняем значение value на текст из элемента с именем профиля
-popupInputName.value = popupUserName;
-//из элемента род занятий выделяем текст
-let popupUserOcupation = profileOcupationElement.textContent;
-//меняем значение value на текст из элемента род занятий
-popupInputOcupation.value = popupUserOcupation;
+  popupInputName.value = popupUserName;
+  //из элемента род занятий выделяем текст
+  let popupUserOcupation = profileOcupationElement.textContent;
+  //меняем значение value на текст из элемента род занятий
+  popupInputOcupation.value = popupUserOcupation;
 }
-
 
 //находим элемент кнопка сохранить
 const popupSave = document.querySelector('.popup__save');
