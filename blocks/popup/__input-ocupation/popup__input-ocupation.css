@@ -1,0 +1,16 @@
+.popup__input-ocupation {
+  margin: 10px 0 48px 0;
+  padding: 19px 0 9px 0;
+  width: 100%;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 650px) {
+  .popup__input-ocupation {
+    margin-bottom: 44px;
+  }
+}

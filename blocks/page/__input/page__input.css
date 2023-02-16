@@ -1,0 +1,10 @@
+.page__input {
+  border: none;
+  font-family: inherit;  
+}
+
+.page__input:focus-visible {
+  outline-color: rgb(55, 55, 236);
+  outline-style: solid;
+  outline-width: 2px;
+}

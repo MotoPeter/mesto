@@ -1,4 +1,4 @@
-.profile__subtitle {
+.profile__ocupation {
   margin: 9px 0 0 0;
   padding: 0;
   max-width: 336px;
@@ -12,14 +12,14 @@
 }
 
 @media screen and (max-width: 750px) {
-  .profile__subtitle {
+  .profile__ocupation {
     margin: 0 auto 36px;
     text-align: center;
   }  
 }
 
 @media screen and (max-width: 450px) {
-  .profile__subtitle {
+  .profile__ocupation {
     font-size: 14px;
     line-height: 1.21;
     margin-bottom: 31px;

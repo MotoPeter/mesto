@@ -7,6 +7,7 @@
 		<meta name="keywords" content="html, css, js, figma" />
 		<meta name="author" content="Петр Коновалов" />
 		<link rel="stylesheet" href="./pages/index.css" />
+    <script src="./index.js" defer></script>
 		<title>Место</title>
 	</head>
   <body class="body">
@@ -16,61 +17,80 @@
       </header>
       <main class="content">
         <section class="profile">
-          <img src="./images/My project.jpg" alt="аватар." class="profile__avatar">
+          <img src="./images/avatar.JPG" alt="аватар" class="profile__avatar">
           <div class="profile__info">
             <div class="profile__text">
-              <h1 class="profile__title">Жак-Ив Кусто</h1>
-              <p class="profile__subtitle">Исследователь океана</p>
+              <h1 class="profile__name">Жак-Ив Кусто</h1>
+              <p class="profile__ocupation">Исследователь океана</p>
             </div>
-            <button class="profile__edit-button edit-button">
+            <button type="button" class="profile__edit-button edit-button page__button page__bottom-hover">
+              <span class="sr-only">редактировать</span>
               <img src="./images/pensil.svg" alt="кнопка редактирования." class="edit-button__image">
             </button>
           </div>
-          <button class="add-button profile__add-button">
+          <button type="button" class="add-button page__button profile__add-button page__bottom-hover">
+            <span class="sr-only">добавить</span>
             <img src="./images/plus.svg" alt="плюс." class="add-button__plus">
           </button>
         </section>
         <section class="grid-places">
           <article class="place">
-            <img src="./images/My project.jpg" alt="" class="place__image">
+            <img src="./images/altay.jpg" alt="алтай" class="place__image">
             <div class="place__text">
-              <h2 class="place__title">Карачаевск</h2>
-              <img src="./images/like.svg" alt="лайк." class="place__like">
+              <h2 class="place__title">Алтай</h2>
+              <button type="button" class="page__button page__bottom-hover">
+                <span class="sr-only">отметить</span>
+                <img src="./images/like.svg" alt="лайк." class="place__like place__like_active">
             </div>
           </article>
           <article class="place">
-            <img src="./images/My project.jpg" alt="" class="place__image">
+            <img src="./images/baykal.JPG" alt="байкал" class="place__image">
             <div class="place__text">
-              <h2 class="place__title">Карачаевск</h2>
-              <img src="./images/like.svg" alt="лайк." class="place__like">
+              <h2 class="place__title">Байкал</h2>
+              <button type="button" class="page__button page__bottom-hover">
+                <span class="sr-only">отметить</span>
+                <img src="./images/like.svg" alt="лайк." class="place__like place__like_active">
+              </button>
             </div>
           </article>
           <article class="place">
-            <img src="./images/My project.jpg" alt="" class="place__image">
+            <img src="./images/dombay.JPG" alt="домбай" class="place__image">
             <div class="place__text">
-              <h2 class="place__title">Карачаевск</h2>
-              <img src="./images/like.svg" alt="лайк." class="place__like">
+              <h2 class="place__title">Домбай</h2>
+              <button type="button" class="page__button page__bottom-hover">
+                <span class="sr-only">отметить</span>
+                <img src="./images/like.svg" alt="лайк." class="place__like">
+              </button>
             </div>
           </article>
           <article class="place">
-            <img src="./images/My project.jpg" alt="" class="place__image">
+            <img src="./images/kolima.JPG" alt="колыма" class="place__image">
             <div class="place__text">
-              <h2 class="place__title">Карачаевск и Черкеск</h2>
-              <img src="./images/like.svg" alt="лайк." class="place__like">
+              <h2 class="place__title">Колыма</h2>
+              <button type="button" class="page__button page__bottom-hover">
+                <span class="sr-only">отметить</span>
+                <img src="./images/like.svg" alt="лайк." class="place__like place__like_active">
+              </button>
             </div>
           </article>
           <article class="place">
-            <img src="./images/My project.jpg" alt="" class="place__image">
+            <img src="./images/krasnoyarskayGES.JPG" alt="красноярская ГЭС" class="place__image">
             <div class="place__text">
-              <h2 class="place__title">Карачаевск</h2>
-              <img src="./images/like.svg" alt="лайк." class="place__like">
+              <h2 class="place__title">Красноярская ГЭС</h2>
+              <button type="button" class="page__button page__bottom-hover">
+                <span class="sr-only">отметить</span>
+                <img src="./images/like.svg" alt="лайк." class="place__like">
+              </button>
             </div>
           </article>
           <article class="place">
-            <img src="./images/My project.jpg" alt="" class="place__image">
+            <img src="./images/onega.jpg" alt="онежское озеро" class="place__image">
             <div class="place__text">
-              <h2 class="place__title">Карачаево-Черкессия</h2>
-              <img src="./images/like.svg" alt="лайк." class="place__like">
+              <h2 class="place__title">Онежское озеро</h2>
+              <button type="button" class="page__button page__bottom-hover">
+                <span class="sr-only">отметить</span>
+                <img src="./images/like.svg" alt="лайк." class="place__like">
+              </button>
             </div>
           </article>
         </section>
@@ -78,4 +98,23 @@
      <footer class="footer">
         <p class="footer__copiright">© 2020 Mesto Russia</p>
       </footer>
+      <section class="popup">
+        <div class="popup__container">
+          <button type="button" class="page__button popup__close page__bottom-hover">
+            <span class="sr-only">закрыть</span>
+          </button>
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <fieldset class="popup__input">
+            <label for="input-name"></label>
+              <input id="input-name" value="" placeholder="имя" required autocomplete="off" class="popup__input-name page__input" type="text">
+              <label for="input-ocupation"></label>
+              <input id="input-ocupation" placeholder="род занятий" required autocomplete="off" class="popup__input-ocupation page__input" type="text">
+          </fieldset>
+          <button type="submit" value="сохранить" class="popup__save page__button popup__bottom-hover">
+            <span class="sr-only">сохранить</span>
+            Сохранить
+          </button>
+        </div>
+      </section>
     </div>
+  </body>
