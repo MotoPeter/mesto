@@ -25,5 +25,5 @@
 * Добавить возможность добавлять и удалять фотографии
 
 * [**Посмотреть макет**](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
-* [**Посмотреть проект**](https://motopeter.github.io/mesto/index.html)
+* [**Посмотреть проект**](https://motopeter.github.io/mesto)
 
