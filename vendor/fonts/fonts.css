@@ -5,8 +5,8 @@
   font-display: swap;
   src: local("inter Web"),
     local("InterWeb"),
-    url("../fonts/InterWeb/Inter-Black.woff2") format("woff2"),
-    url("../fonts/InterWeb/Inter-Black.woff") format("woff"); 
+    url("../fonts/interWeb/Inter-Black.woff2") format("woff2"),
+    url("../fonts/interWeb/Inter-Black.woff") format("woff"); 
 }
 
 @font-face {
@@ -16,8 +16,8 @@
   font-display: swap;
   src: local("inter Web"),
     local("InterWeb"),
-    url("../fonts/InterWeb/Inter-Medium.woff2") format("woff2"),
-    url("../fonts/InterWeb/Inter-Medium.woff") format("woff");  
+    url("../fonts/interWeb/Inter-Medium.woff2") format("woff2"),
+    url("../fonts/interWeb/Inter-Medium.woff") format("woff");  
 }
 
 @font-face {
@@ -27,6 +27,6 @@
   font-display: swap;
   src: local("inter Web"),
     local("InterWeb"),
-    url("../fonts/InterWeb/Inter-Regular.woff2") format("woff2"),
-    url("../fonts/InterWeb/Inter-Regular.woff") format("woff");  
+    url("../fonts/interWeb/Inter-Regular.woff2") format("woff2"),
+    url("../fonts/interWeb/Inter-Regular.woff") format("woff");  
 }
