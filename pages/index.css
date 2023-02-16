@@ -12,7 +12,7 @@
 @import url(../blocks/profile/__avatar/profile__avatar.css);
 @import url(../blocks/add-button/add-button.css);
 @import url(../blocks/add-button/__plus/add-button__plus.css);
-@import url(../blocks/sr-only/sr-only.css);
+@import url(../vendor/sr-only/sr-only.css);
 @import url(../blocks/profile/__name/profile__name.css);
 @import url(../blocks/profile/__ocupation/profile__ocupation.css);
 @import url(../blocks/edit-button/__image/edit-button__image.css);
@@ -25,7 +25,6 @@
 @import url(../blocks/place/__image/place__image.css);
 @import url(../blocks/place/__text/plase__text.css);
 @import url(../blocks/place/__title/place__title.css);
-@import url(../blocks/place/__like/place__iike.css);
 @import url(../blocks/place/__like/_active/place__like_active.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copiright/footer__copiright.css);
