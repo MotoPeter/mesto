@@ -12,7 +12,7 @@
   .footer__copyright {
     margin-left: 20px;
     margin-right: 20px;
-  }  
+  }
 }
 
 @media screen and (max-width: 450px) {
@@ -20,5 +20,5 @@
     margin: 0 0 36px 19px;
     font-size: 14px;
     line-height: 1.21;
-  }  
+  }
 }
