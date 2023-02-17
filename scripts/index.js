@@ -5,11 +5,11 @@ const editPopup = document.querySelector(".popup");
 //находим элемент с именем профиля
 let profileNameElement = document.querySelector(".profile__name");
 //находим элемент ввода имени в popup
-let popupInputName = document.querySelector(".popup__input_name");
+let popupInputName = document.querySelector(".popup__input_data_name");
 //находим элемент род занятий
 let profileOcupationElement = document.querySelector(".profile__ocupation");
 //находим элемент ввода рода занятий в popup
-let popupInputOcupation = document.querySelector(".popup__input_ocupation");
+let popupInputOcupation = document.querySelector(".popup__input_data_ocupation");
 //находим элемент кнопка сохранить
 const popupSave = document.querySelector(".popup__save");
 //находим кнопку закрытия popup
