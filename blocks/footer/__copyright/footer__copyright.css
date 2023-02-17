@@ -1,4 +1,4 @@
-.footer__copiright {
+.footer__copyright {
   margin: 0 0 60px 0;
   padding: 0;
   font-style: normal;
@@ -9,14 +9,14 @@
 }
 
 @media screen and (max-width: 950px) {
-  .footer__copiright {
+  .footer__copyright {
     margin-left: 20px;
     margin-right: 20px;
   }  
 }
 
 @media screen and (max-width: 450px) {
-  .footer__copiright {
+  .footer__copyright {
     margin: 0 0 36px 19px;
     font-size: 14px;
     line-height: 1.21;
