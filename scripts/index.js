@@ -67,3 +67,49 @@ editPopup.addEventListener("submit", function (evt) {
 	//вызываем функцию закрытия попапа и записи изменений
 	saveChangesProfile();
 });
+
+//создаем массив карточек, который будет использоваться при загрузке
+const initialCards = [
+  { name: 'Алтай',
+    src: './images/altay.jpg'
+  },
+  { name: 'Байкал',
+    src: './images/baykal.JPG'
+  },
+  { name: 'Домбай',
+    src: './images/dombay.JPG'
+  },
+  { name: 'Колыма',
+    src: './images/kolima.JPG'
+  },
+  { name: 'Красноярская ГЭС',
+    src: './images/krasnoyarskayGES.JPG'
+  },
+  { name: 'Онежское озеро',
+    src: './images/onega.jpg'
+  }
+];
+
+//находим в DOM элемент размещения карточек
+const gridPlaces = document.querySelector('.grid-places');
+
+//делаем функцию создания карточки из массива
+ function createPlace(place) {
+  //находим в DOM элемнет шаблона карточки
+  const newPlace = document.getElementById('placeTempLate').content.cloneNode(true);
+  //находим элемент заголовка карточки
+  const placeTitle = newPlace.querySelector('.place__title');
+  //добавляем в элемент заголовка значение name карточки из массива
+  placeTitle.textContent = place.name;
+  //находим элемент картинки
+  const placeImage = newPlace.querySelector('.place__image');
+  //добавляем атрибут в картинку
+  placeImage.setAttribute('src', place.src);
+  //добавляем атрибут alt в картинку
+  placeImage.setAttribute('alt', (place.name + '.'));
+  //добавляем в элемент gridPlaces карточку
+  gridPlaces.append(newPlace);
+};
+
+//обходим массив карточек вызывая функцию создания карточки из массива
+initialCards.forEach(createPlace);

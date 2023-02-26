@@ -39,7 +39,21 @@
             </button>
           </section>
           <section class="grid-places">
-            <article class="place">
+            <template id="placeTempLate">
+              <article class="place">
+                <img class="place__image" />
+                <div class="place__text">
+                  <h2 class="place__title"></h2>
+                  <button
+                    type="button"
+                    class="place__like button button_condition_hover"
+                  >
+                    <img src="./images/like.svg" alt="лайк." />
+                  </button>
+                </div>
+              </article>
+            </template>
+            <!--<article class="place">
               <img src="./images/altay.jpg" alt="алтай" class="place__image" />
               <div class="place__text">
                 <h2 class="place__title">Алтай</h2>
@@ -118,7 +132,7 @@
                   <img src="./images/like.svg" alt="лайк." />
                 </button>
               </div>
-            </article>
+            </article>-->
           </section>
         </main>
         <footer class="footer">
