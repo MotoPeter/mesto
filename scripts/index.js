@@ -10,8 +10,9 @@ const initialCards = [
 
 //находим в DOM элемент размещения карточек
 const gridPlaces = document.querySelector(".grid-places");
-//делаем функцию создания карточки из массива
-function createPlace(places) {
+
+// функция создания карточки. Второй параметр указывет на порядок размещения карточки (по умолчанию в конец списка)
+function createPlace(places, order = "append") {
 	//находим в DOM элемнет шаблона карточки
 	const place = document
 		.getElementById("placeTempLate")
@@ -26,8 +27,26 @@ function createPlace(places) {
 	placeImage.setAttribute("src", places.src);
 	//добавляем атрибут alt в картинку
 	placeImage.setAttribute("alt", places.name + ".");
+	//находим кнопку лайка
+	const likeButton = place.querySelector(".place__like");
+	//при нажатии лайка вызываем функцию
+	likeButton.addEventListener("click", pressLikeButton);
+	//находим кнопку удаления
+	const delButton = place.querySelector(".place__trash");
+	//при нажатии вызываем функцию удаления
+	delButton.addEventListener("click", pressDelButton);
+  //кнопку на картинке (открытия попап)
+  const placeImageButton = place.querySelector(".place__image-button");
+  //при нажатии вызываем функцию открытия попапа картинки
+  placeImageButton.addEventListener("click", openPopupImage);
 	//добавляем в элемент gridPlaces карточку
-	gridPlaces.append(place);
+	//если переданно значение prepend, ставим в начало списка
+	if (order === "prepend") {
+		gridPlaces.prepend(place);
+		//если нет в конец
+	} else {
+		gridPlaces.append(place);
+	}
 }
 
 //обходим массив карточек вызывая функцию создания карточки из массива
@@ -37,128 +56,102 @@ initialCards.forEach(createPlace);
 const profileEditButton = document.querySelector(".profile__edit-button");
 //находим в DOM кнопку добавления места (открытия попап)
 const profileAddButton = document.querySelector(".profile__add-button");
-//находим блок popup
-const editPopup = document.querySelector(".popup");
-//находим элемент заголовка попап
-const popupTitle = document.querySelector(".popup__title");
-//находим элемент popup form
-const popupForm = document.querySelector(".popup__form");
-//элемент первого поля ввода
-const popupInputFirst = document.querySelector(".popup__input-first");
-//элемент второго поля ввода
-const popupInputSecond = document.querySelector(".popup__input-second");
-//находим кнопку закрытия popup
-const popupСlose = document.querySelector(".popup__close");
-//находим элемент кнопка сохранить
+
+//находим блок popup редактирования профиля
+const popupValueUserEdit = document.querySelector(".popup_value_user-edit");
+//находим блок popup добавления места
+const popupValuePlaceAdd = document.querySelector(".popup_value_place-add");
+//находим блок popup открытия изображения
+const popupValueImg = document.querySelector(".popup_value_img");
+//кнопка закрытия попапа редактирования профиля
+const popupСloseUserEdit = document.querySelector(".popup__close_value_user-edit");
+//кнопка закрытия попапа добавления места
+const popupСlosePlaceAdd = document.querySelector(".popup__close_value_place-add");
+//находим элемент кнопка сохранить изменения профиля
 const popupSave = document.querySelector(".popup__save");
 //находим элемент с именем профиля
-let profileNameElement = document.querySelector(".profile__name");
+const profileNameElement = document.querySelector(".profile__name");
 //находим элемент род занятий
-let profileOcupationElement = document.querySelector(".profile__ocupation");
+const profileOcupationElement = document.querySelector(".profile__ocupation");
+//находим элемент ввода имени в popup
+const popupInputName = document.querySelector(".popup__input_data_name");
+//находим элемент ввода рода занятий в popup
+const popupInputOcupation = document.querySelector(".popup__input_data_ocupation");
 
-//создаем массив для попапа редактирования профиля
-const userEdit = {
-	title: "Редактировать профиль",
-	formName: "user-edit",
-	inputNameFirst: "user-name",
-	placeholderFirst: "имя",
-	classFirst: "popup__input_data_name",
-	inputNameSecond: "user-ocupation",
-	placeholderSecond: "род занятий",
-	classSecond: "popup__input_data_ocupation",
-	typeSecond: "text",
-	textButton: "Сохранить",
-};
-
-//создаем массив для попапа добавления места
-const addPlace = {
-	title: "Новое место",
-	formName: "place-add",
-	inputNameFirst: "place-name",
-	placeholderFirst: "Название",
-	classFirst: "popup__input_data_location",
-	inputNameSecond: "linc-foto",
-	placeholderSecond: "Ссылка на картинку",
-	classSecond: "popup__input_data_link-foto",
-	typeSecond: "url",
-	textButton: "Создать",
-};
 
 //ФУНКЦИЯ ОТКРЫТИЯ ПОПАПА
 function openPopup(popup) {
 	//добавляем класс что бы popup стал видимым
-	editPopup.classList.add("popup_openend");
-	popupTitle.textContent = popup.title;
-	popupForm.setAttribute("name", popup.formName);
-	popupInputFirst.setAttribute("name", popup.inputNameFirst);
-	popupInputFirst.setAttribute("placeholder", popup.placeholderFirst);
-	popupInputFirst.classList.add(popup.classFirst);
-	popupInputSecond.setAttribute("name", popup.inputNameSecond);
-	popupInputSecond.setAttribute("placeholder", popup.placeholderSecond);
-	popupInputSecond.classList.add(popup.classSecond);
-	popupInputSecond.setAttribute("type", popup.typeSecond);
-	popupSave.textContent = popup.textButton;
+	popup.classList.add("popup_openend");
 }
 
 //ФУНКЦИЯ ЗАКРЫТИЯ ПОПАПА
-function ClosePopap() {
+function ClosePopap(popup) {
 	//удаляем класс и popup снова невидим
-	editPopup.classList.remove("popup_openend");
-	//удаляем классы привязки инпутов попапа к кнопе
-	popupInputFirst.classList.remove(
-		"popup__input_data_location",
-		"popup__input_data_name"
-	);
-	popupInputSecond.classList.remove(
-		"popup__input_data_link-foto",
-		"popup__input_data_ocupation"
-	);
+	popup.classList.remove("popup_openend");
 }
 
-//ЗАПИСИ value ТЕКСТА ИЗ ПРОФИЛЯ
+//ЗАПИСИ в value ТЕКСТА ИЗ ПРОФИЛЯ
 function valuePopap() {
 	//из элемента с именем выделяем текст
 	let popupUserName = profileNameElement.textContent;
 	//меняем значение value на текст из элемента с именем профиля
-	popupInputFirst.value = popupUserName;
+	popupInputName.value = popupUserName;
 	//из элемента род занятий выделяем текст
 	let popupUserOcupation = profileOcupationElement.textContent;
 	//меняем значение value на текст из элемента род занятий
-	popupInputSecond.value = popupUserOcupation;
+	popupInputOcupation.value = popupUserOcupation;
 }
 
-//Удаление value из инпутов
-function delValuePopap() {
-	//меняем значение value на текст из элемента с именем профиля
-	popupInputFirst.value = "";
-	//меняем значение value на текст из элемента род занятий
-	popupInputSecond.value = "";
-}
+//функция получения value из инпутов
+function receiveValue(inputFirst, inputSecond) {
+	//находим элемент первого ввода в popup
+	let valueInputFirst = document.querySelector(inputFirst).value;
+	//находим элемент второго ввода в popup
+	let valueInputSecond = document.querySelector(inputSecond).value;
+  console.log(valueInputFirst, valueInputSecond);
+  return [valueInputFirst, valueInputSecond];
+};
 
 //функция записи изменений в профиле
 function saveChangesProfile() {
-	//находим элемент ввода имени в popup
-	let popupInputName = document.querySelector(".popup__input_data_name");
-	//находим элемент ввода рода занятий в popup
-	let popupInputOcupation = document.querySelector(
-		".popup__input_data_ocupation"
-	);
-	//записываем новое имя из value элемента ввода имени popup
-	let popupNameNew = popupInputName.value;
+	//вызываем функцию получения value
+	let popupInput = receiveValue('.popup__input_data_name', '.popup__input_data_ocupation');
 	//присваиваем текстовому полю элемента с именем профиля новое имя из ввода popup
-	profileNameElement.textContent = popupNameNew;
-	//записываем новое род занятий из value элемента ввода данных popup
-	let popupOcupationNew = popupInputOcupation.value;
+	profileNameElement.textContent = popupInput[0];
 	//присваиваем текстовому полю элемента с родом занятий новое значение из ввода popup
-	profileOcupationElement.textContent = popupOcupationNew;
+	profileOcupationElement.textContent = popupInput[1];
 	//вызываем функцию закрытия попапа
-	ClosePopap();
+	ClosePopap(popupValueUserEdit);
+}
+
+//функция добавления карточки
+function saveNewCard() {
+	//вызываем функцию получения value
+	let popupInput = receiveValue('.popup__input_data_location', '.popup__input_data_link-foto');
+  console.log(popupInput);
+	//вызываем функцию создания карточки и передаем ей созданный массив
+	createPlace({name: popupInput[0], src: popupInput[1]}, "prepend");
+	//вызываем функцию закрытия попапа
+	ClosePopap(popupValuePlaceAdd);
+}
+
+function openPopupImage(evt) {
+  //определяем целевой элемент
+	const imageButton = evt.target.closest('.place');
+	//находим узел img и его атрибут src
+  let srcImage = imageButton.querySelector('.place__image').src
+  //открываем попап
+  openPopup(popupValueImg)
+  const popupImg = popupValueImg.querySelector('.popup__img')
+  popupImg.style.backgroundImage="url(" + srcImage+ ")";
+	console.log(srcImage)
 }
 
 //при нажатии кнопки редактирования профиля
 profileEditButton.addEventListener("click", function () {
 	//вызываем функцию открытия и обновления value инпутов
-	openPopup(userEdit);
+	openPopup(popupValueUserEdit);
 	//функция записи value текста из профиля
 	valuePopap();
 });
@@ -166,20 +159,48 @@ profileEditButton.addEventListener("click", function () {
 //при нажатии кнопки добавления места
 profileAddButton.addEventListener("click", function () {
 	//вызываем функцию открытия и обновления value инпутов
-	openPopup(addPlace);
-	//функция удаления value из инпутов
-	delValuePopap();
+	openPopup(popupValuePlaceAdd);
 });
 
-//при нажатии кнопки закрытия popup
-popupСlose.addEventListener("click", function () {
-	ClosePopap();
+//при нажатии кнопки закрытия popup редактирования профиля
+popupСloseUserEdit.addEventListener("click", function (evt) {
+  ClosePopap(popupValueUserEdit);
+});
+
+//при нажатии кнопки закрытия popup добавления места
+popupСlosePlaceAdd.addEventListener("click", function (evt) {
+  ClosePopap(popupValuePlaceAdd);
+});
+
+
+//при наступлении события
+popupValueUserEdit.addEventListener("submit", function (evt) {
+	//отменяем стандартную отправку формы
+	evt.preventDefault();
+		//вызываем функцию закрытия попапа и записи изменений
+		saveChangesProfile();
 });
 
 //при наступлении события
-editPopup.addEventListener("submit", function (evt) {
+popupValuePlaceAdd.addEventListener("submit", function (evt) {
 	//отменяем стандартную отправку формы
 	evt.preventDefault();
-	//вызываем функцию закрытия попапа и записи изменений
-	saveChangesProfile();
+		//вызываем функцию закрытия попапа и создания новой карточки
+		saveNewCard();
 });
+
+//функция лайка
+function pressLikeButton(evt) {
+	//определяем целевой элемент
+	const likeButton = evt.target;
+	//добавляем(убираем) класс
+	likeButton.classList.toggle("place__like_active");
+}
+
+//функция удаления place
+function pressDelButton(evt) {
+	//определяем целевой элемент
+	const buttonDelite = evt.target;
+	//удаляем карточку
+	buttonDelite.closest(".place").remove();
+}

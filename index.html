@@ -41,7 +41,12 @@
           <section class="grid-places">
             <template id="placeTempLate">
               <article class="place">
-                <img class="place__image" />
+                <button 
+                type="button"
+                class="button place__image-button"
+                >
+                  <img class="place__image" />
+                </button>
                 <div class="place__text">
                   <h2 class="place__title"></h2>
                   <button
@@ -144,32 +149,32 @@
         <footer class="footer">
           <p class="footer__copyright">© 2020 Mesto Russia</p>
         </footer>
-        <div class="popup">
+        <div class="popup popup_value_user-edit">
           <div class="popup__container">
             <button
               type="button"
-              class="popup__close button button_condition_hover"
+              class="popup__close popup__close_value_user-edit button button_condition_hover"
             ></button>
-            <h3 class="popup__title"></h3>
-            <form class="popup__form" name="">
+            <h3 class="popup__title">Редактировать профиль</h3>
+            <form class="popup__form" name="user-edit">
               <fieldset class="popup__fieldset">
                 <input
-                  name=""
+                  name="user-name"
                   value=""
-                  placeholder=""
+                  placeholder="имя"
                   required
                   autocomplete="off"
-                  class="popup__input popup__input-first"
+                  class="popup__input popup__input-first popup__input_data_name"
                   type="text"
                 />
                 <input
-                  name=""
+                  name="user-ocupation"
                   value=""
-                  placeholder=""
+                  placeholder="род занятий"
                   required
                   autocomplete="off"
-                  class="popup__input popup__input-second"
-                  type=""
+                  class="popup__input popup__input-second popup__input_data_ocupation"
+                  type="text"
                 />
               </fieldset>
               <button
@@ -182,31 +187,31 @@
             </form>
           </div>
         </div>
-        <!--<div class="popup">
+        <div class="popup popup_value_place-add">
           <div class="popup__container">
             <button
               type="button"
-              class="popup__close button button_condition_hover"
+              class="popup__close popup__close_value_place-add button button_condition_hover"
             ></button>
             <h3 class="popup__title">Новое место</h3>
-            <form name="user-edit">
+            <form name="place-add">
               <fieldset class="popup__fieldset">
                 <input
-                  name="user-name"
+                  name="place-name"
                   value=""
                   placeholder="Название"
                   required
                   autocomplete="off"
-                  class="popup__input_data_name popup__input"
+                  class="popup__input popup__input_data_location"
                   type="text"
                 />
                 <input
-                  name="user-ocupation"
+                  name="link-foto"
                   placeholder="Ссылка на картинку"
                   required
                   autocomplete="off"
-                  class="popup__input_data_ocupation popup__input"
-                  type="text"
+                  class="popup__input_data_link-foto popup__input"
+                  type="url"
                 />
               </fieldset>
               <button
@@ -218,7 +223,23 @@
               </button>
             </form>
           </div>
-        </div>-->
+        </div>
+        <div class="popup popup_value_img popup_openend">
+          <div class="popup__container_type_img popup__img">
+            <button
+              type="button"
+              class="popup__close button button_condition_hover">
+            </button>         
+            <figure class="figure popup_figure">
+              <img
+              src="./images/onega.jpg"
+                class="figure__img"
+                alt=""
+              />
+              <figcaption class="figure__caption">аалтай</figcaption>
+            </figure>         
+          </div>
+        </div>
       </div>
       <script src="./scripts/index.js"></script>
     </body>
