@@ -35,10 +35,10 @@ function createPlace(places, order = "append") {
 	const delButton = place.querySelector(".place__trash");
 	//при нажатии вызываем функцию удаления
 	delButton.addEventListener("click", pressDelButton);
-  //кнопку на картинке (открытия попап)
-  const placeImageButton = place.querySelector(".place__image-button");
-  //при нажатии вызываем функцию открытия попапа картинки
-  placeImageButton.addEventListener("click", openPopupImage);
+	//кнопку на картинке (открытия попап)
+	const placeImageButton = place.querySelector(".place__image-button");
+	//при нажатии вызываем функцию открытия попапа картинки
+	placeImageButton.addEventListener("click", openPopupImage);
 	//добавляем в элемент gridPlaces карточку
 	//если переданно значение prepend, ставим в начало списка
 	if (order === "prepend") {
@@ -56,7 +56,6 @@ initialCards.forEach(createPlace);
 const profileEditButton = document.querySelector(".profile__edit-button");
 //находим в DOM кнопку добавления места (открытия попап)
 const profileAddButton = document.querySelector(".profile__add-button");
-
 //находим блок popup редактирования профиля
 const popupValueUserEdit = document.querySelector(".popup_value_user-edit");
 //находим блок popup добавления места
@@ -64,9 +63,15 @@ const popupValuePlaceAdd = document.querySelector(".popup_value_place-add");
 //находим блок popup открытия изображения
 const popupValueImg = document.querySelector(".popup_value_img");
 //кнопка закрытия попапа редактирования профиля
-const popupСloseUserEdit = document.querySelector(".popup__close_value_user-edit");
+const popupСloseUserEdit = document.querySelector(
+	".popup__close_value_user-edit"
+);
 //кнопка закрытия попапа добавления места
-const popupСlosePlaceAdd = document.querySelector(".popup__close_value_place-add");
+const popupСlosePlaceAdd = document.querySelector(
+	".popup__close_value_place-add"
+);
+//кнопка закрытия попапа картинки
+const popupCloseValueImg = document.querySelector(".popup__close_value_img");
 //находим элемент кнопка сохранить изменения профиля
 const popupSave = document.querySelector(".popup__save");
 //находим элемент с именем профиля
@@ -76,8 +81,9 @@ const profileOcupationElement = document.querySelector(".profile__ocupation");
 //находим элемент ввода имени в popup
 const popupInputName = document.querySelector(".popup__input_data_name");
 //находим элемент ввода рода занятий в popup
-const popupInputOcupation = document.querySelector(".popup__input_data_ocupation");
-
+const popupInputOcupation = document.querySelector(
+	".popup__input_data_ocupation"
+);
 
 //ФУНКЦИЯ ОТКРЫТИЯ ПОПАПА
 function openPopup(popup) {
@@ -109,14 +115,17 @@ function receiveValue(inputFirst, inputSecond) {
 	let valueInputFirst = document.querySelector(inputFirst).value;
 	//находим элемент второго ввода в popup
 	let valueInputSecond = document.querySelector(inputSecond).value;
-  console.log(valueInputFirst, valueInputSecond);
-  return [valueInputFirst, valueInputSecond];
-};
+	console.log(valueInputFirst, valueInputSecond);
+	return [valueInputFirst, valueInputSecond];
+}
 
 //функция записи изменений в профиле
 function saveChangesProfile() {
 	//вызываем функцию получения value
-	let popupInput = receiveValue('.popup__input_data_name', '.popup__input_data_ocupation');
+	let popupInput = receiveValue(
+		".popup__input_data_name",
+		".popup__input_data_ocupation"
+	);
 	//присваиваем текстовому полю элемента с именем профиля новое имя из ввода popup
 	profileNameElement.textContent = popupInput[0];
 	//присваиваем текстовому полю элемента с родом занятий новое значение из ввода popup
@@ -128,24 +137,38 @@ function saveChangesProfile() {
 //функция добавления карточки
 function saveNewCard() {
 	//вызываем функцию получения value
-	let popupInput = receiveValue('.popup__input_data_location', '.popup__input_data_link-foto');
-  console.log(popupInput);
+	let popupInput = receiveValue(
+		".popup__input_data_location",
+		".popup__input_data_link-foto"
+	);
+	console.log(popupInput);
 	//вызываем функцию создания карточки и передаем ей созданный массив
-	createPlace({name: popupInput[0], src: popupInput[1]}, "prepend");
+	createPlace({ name: popupInput[0], src: popupInput[1] }, "prepend");
 	//вызываем функцию закрытия попапа
 	ClosePopap(popupValuePlaceAdd);
 }
 
 function openPopupImage(evt) {
-  //определяем целевой элемент
-	const imageButton = evt.target.closest('.place');
+	//определяем целевой элемент
+	const imageButton = evt.target.closest(".place");
 	//находим узел img и его атрибут src
-  let srcImage = imageButton.querySelector('.place__image').src
-  //открываем попап
-  openPopup(popupValueImg)
-  const popupImg = popupValueImg.querySelector('.popup__img')
-  popupImg.style.backgroundImage="url(" + srcImage+ ")";
-	console.log(srcImage)
+	let srcImage = imageButton.querySelector(".place__image").src;
+	//открываем попап
+	openPopup(popupValueImg);
+	//находим элемент картинки
+	const popupImg = popupValueImg.querySelector(".figure__img");
+	//добавляем ему атрибут src
+	popupImg.setAttribute("src", srcImage);
+	//находим элемент заголовка
+	const titleImage = imageButton.querySelector(".place__title").textContent;
+	//находим элемент подписи к картинке
+	const figureCaption = popupValueImg.querySelector(".figure__caption");
+	//добавляем элементу текстовое значение
+	figureCaption.textContent = titleImage;
+	//находим у картинки атрибут alt
+	let altImage = imageButton.querySelector(".place__image").alt;
+	//добавляем атрибут alt
+	popupImg.setAttribute("alt", altImage);
 }
 
 //при нажатии кнопки редактирования профиля
@@ -164,29 +187,33 @@ profileAddButton.addEventListener("click", function () {
 
 //при нажатии кнопки закрытия popup редактирования профиля
 popupСloseUserEdit.addEventListener("click", function (evt) {
-  ClosePopap(popupValueUserEdit);
+	ClosePopap(popupValueUserEdit);
 });
 
 //при нажатии кнопки закрытия popup добавления места
 popupСlosePlaceAdd.addEventListener("click", function (evt) {
-  ClosePopap(popupValuePlaceAdd);
+	ClosePopap(popupValuePlaceAdd);
 });
 
+//при нажатии кнопки закрытия popup картинки
+popupCloseValueImg.addEventListener("click", function (evt) {
+	ClosePopap(popupValueImg);
+});
 
 //при наступлении события
 popupValueUserEdit.addEventListener("submit", function (evt) {
 	//отменяем стандартную отправку формы
 	evt.preventDefault();
-		//вызываем функцию закрытия попапа и записи изменений
-		saveChangesProfile();
+	//вызываем функцию закрытия попапа и записи изменений
+	saveChangesProfile();
 });
 
 //при наступлении события
 popupValuePlaceAdd.addEventListener("submit", function (evt) {
 	//отменяем стандартную отправку формы
 	evt.preventDefault();
-		//вызываем функцию закрытия попапа и создания новой карточки
-		saveNewCard();
+	//вызываем функцию закрытия попапа и создания новой карточки
+	saveNewCard();
 });
 
 //функция лайка
