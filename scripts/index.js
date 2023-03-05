@@ -115,7 +115,6 @@ function receiveValue(inputFirst, inputSecond) {
 	let valueInputFirst = document.querySelector(inputFirst).value;
 	//находим элемент второго ввода в popup
 	let valueInputSecond = document.querySelector(inputSecond).value;
-	console.log(valueInputFirst, valueInputSecond);
 	return [valueInputFirst, valueInputSecond];
 }
 
@@ -141,7 +140,6 @@ function saveNewCard() {
 		".popup__input_data_location",
 		".popup__input_data_link-foto"
 	);
-	console.log(popupInput);
 	//вызываем функцию создания карточки и передаем ей созданный массив
 	createPlace({ name: popupInput[0], src: popupInput[1] }, "prepend");
 	//вызываем функцию закрытия попапа
