@@ -100,11 +100,11 @@ function ClosePopap(popup) {
 //ЗАПИСИ в value ТЕКСТА ИЗ ПРОФИЛЯ
 function valuePopap() {
 	//из элемента с именем выделяем текст
-	let popupUserName = profileNameElement.textContent;
+	const popupUserName = profileNameElement.textContent;
 	//меняем значение value на текст из элемента с именем профиля
 	popupInputName.value = popupUserName;
 	//из элемента род занятий выделяем текст
-	let popupUserOcupation = profileOcupationElement.textContent;
+	const popupUserOcupation = profileOcupationElement.textContent;
 	//меняем значение value на текст из элемента род занятий
 	popupInputOcupation.value = popupUserOcupation;
 }
@@ -112,16 +112,16 @@ function valuePopap() {
 //функция получения value из инпутов
 function receiveValue(inputFirst, inputSecond) {
 	//находим элемент первого ввода в popup
-	let valueInputFirst = document.querySelector(inputFirst).value;
+	const valueInputFirst = document.querySelector(inputFirst).value;
 	//находим элемент второго ввода в popup
-	let valueInputSecond = document.querySelector(inputSecond).value;
+	const valueInputSecond = document.querySelector(inputSecond).value;
 	return [valueInputFirst, valueInputSecond];
 }
 
 //функция записи изменений в профиле
 function saveChangesProfile() {
 	//вызываем функцию получения value
-	let popupInput = receiveValue(
+	const popupInput = receiveValue(
 		".popup__input_data_name",
 		".popup__input_data_ocupation"
 	);
@@ -136,7 +136,7 @@ function saveChangesProfile() {
 //функция добавления карточки
 function saveNewCard() {
 	//вызываем функцию получения value
-	let popupInput = receiveValue(
+	const popupInput = receiveValue(
 		".popup__input_data_location",
 		".popup__input_data_link-foto"
 	);
@@ -150,7 +150,7 @@ function openPopupImage(evt) {
 	//определяем целевой элемент
 	const imageButton = evt.target.closest(".place");
 	//находим узел img и его атрибут src
-	let srcImage = imageButton.querySelector(".place__image").src;
+	const srcImage = imageButton.querySelector(".place__image").src;
 	//открываем попап
 	openPopup(popupValueImg);
 	//находим элемент картинки
@@ -164,7 +164,7 @@ function openPopupImage(evt) {
 	//добавляем элементу текстовое значение
 	figureCaption.textContent = titleImage;
 	//находим у картинки атрибут alt
-	let altImage = imageButton.querySelector(".place__image").alt;
+	const altImage = imageButton.querySelector(".place__image").alt;
 	//добавляем атрибут alt
 	popupImg.setAttribute("alt", altImage);
 }
