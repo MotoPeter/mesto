@@ -77,7 +77,7 @@ function getCard(item) {
 	//кнопку на картинке (открытия попап)
 	const buttonImagePlace = place.querySelector(".place__image-button");
 	//при нажатии вызываем функцию открытия попапа картинки
-	buttonImagePlace.addEventListener("click", () => openPlaceImage(place));
+	buttonImagePlace.addEventListener("click", () => openPlaceImage(item));
 	//возвращаем код созданной карточки
 	return place;
 }
@@ -153,21 +153,20 @@ function savePlaceNew() {
 	closePopap(popupPlaceAdd);
 }
 
-function openPlaceImage(place) {
-	//определяем целевой элемент
-	const placeImage = place.querySelector(".place__image");
+function openPlaceImage(item) {
+  console.log(item)
 	//находим узел img и его атрибут src
-	const placeSrcImage = placeImage.src;
+	const placeSrcImage = item.src;
 	//открываем попап
 	openPopup(popupImgOpening);
 	//добавляем атрибут src
 	popupImg.setAttribute("src", placeSrcImage);
 	//находим элемент заголовка
-	const placeTitleImage = place.querySelector(".place__title").textContent;
+	const placeTitleImage = item.name;
 	//добавляем элементу текстовое значение
 	placeFigureCaption.textContent = placeTitleImage;
 	//находим у картинки атрибут alt
-	const placeAltImage = placeImage.alt;
+	const placeAltImage = item.name + '.';
 	//добавляем атрибут alt
 	popupImg.setAttribute("alt", placeAltImage);
 }
