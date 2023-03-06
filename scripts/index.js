@@ -8,11 +8,50 @@ const initialCards = [
 	{ name: "Онежское озеро", src: "./images/onega.jpg" },
 ];
 
+//находим в DOM кнопку редактирования профиля (открытия попап)
+const profileEditButton = document.querySelector(".profile__edit-button");
+//находим в DOM кнопку добавления места (открытия попап)
+const placeAddButton = document.querySelector(".profile__add-button");
+//находим блок popup редактирования профиля
+const popupProfileEdit = document.querySelector(".popup_value_user-edit");
+//находим блок popup добавления места
+const popupPlaceAdd = document.querySelector(".popup_value_place-add");
+//находим блок popup открытия изображения
+const popupImgOpening = document.querySelector(".popup_value_img");
+//кнопка закрытия попапа редактирования профиля
+const profileCloseButton = document.querySelector(
+	".popup__close_value_user-edit"
+);
+//кнопка закрытия попапа добавления места
+const placeCloseButton = document.querySelector(
+	".popup__close_value_place-add"
+);
+//кнопка закрытия попапа картинки
+const imgCloseButton = document.querySelector(".popup__close_value_img");
+//находим элемент с именем профиля
+const profileName = document.querySelector(".profile__name");
+//находим элемент род занятий
+const profileOcupation = document.querySelector(".profile__ocupation");
+//находим элемент ввода имени в popup
+const profileInputName = document.querySelector(".popup__input_data_name");
+//находим элемент ввода рода занятий в popup
+const profileInputOcupation = document.querySelector(
+	".popup__input_data_ocupation"
+);
+const placeInputLocation = document.querySelector(
+	".popup__input_data_location"
+);
+const placeInputImg = document.querySelector(".popup__input_data_link-foto");
+//находим элемент картинки
+const popupImg = popupImgOpening.querySelector(".figure__img");
+//находим элемент подписи к картинке
+const placeFigureCaption = popupImgOpening.querySelector(".figure__caption");
+
 //находим в DOM элемент размещения карточек
 const gridPlaces = document.querySelector(".grid-places");
 
-// функция создания карточки. Второй параметр указывет на порядок размещения карточки (по умолчанию в конец списка)
-function createPlace(places, order = "append") {
+// функция создания карточки
+function getCard(item) {
 	//находим в DOM элемнет шаблона карточки
 	const place = document
 		.getElementById("placeTempLate")
@@ -20,27 +59,34 @@ function createPlace(places, order = "append") {
 	//находим элемент заголовка карточки
 	const placeTitle = place.querySelector(".place__title");
 	//добавляем в элемент заголовка значение name карточки из массива
-	placeTitle.textContent = places.name;
+	placeTitle.textContent = item.name;
 	//находим элемент картинки
 	const placeImage = place.querySelector(".place__image");
 	//добавляем атрибут в картинку
-	placeImage.setAttribute("src", places.src);
+	placeImage.setAttribute("src", item.src);
 	//добавляем атрибут alt в картинку
-	placeImage.setAttribute("alt", places.name + ".");
+	placeImage.setAttribute("alt", item.name + ".");
 	//находим кнопку лайка
-	const likeButton = place.querySelector(".place__like");
+	const placeLikebutton = place.querySelector(".place__like");
 	//при нажатии лайка вызываем функцию
-	likeButton.addEventListener("click", pressLikeButton);
+	placeLikebutton.addEventListener("click", pressLikeButton);
 	//находим кнопку удаления
-	const delButton = place.querySelector(".place__trash");
+	const buttonDelPlace = place.querySelector(".place__trash");
 	//при нажатии вызываем функцию удаления
-	delButton.addEventListener("click", pressDelButton);
+	buttonDelPlace.addEventListener("click", pressDelButton);
 	//кнопку на картинке (открытия попап)
-	const placeImageButton = place.querySelector(".place__image-button");
+	const buttonImagePlace = place.querySelector(".place__image-button");
 	//при нажатии вызываем функцию открытия попапа картинки
-	placeImageButton.addEventListener("click", openPopupImage);
-	//добавляем в элемент gridPlaces карточку
-	//если переданно значение prepend, ставим в начало списка
+	buttonImagePlace.addEventListener("click", () => openPlaceImage(place));
+	//возвращаем код созданной карточки
+	return place;
+}
+
+// функция вставки карточки в разметку. Второй параметр указывет на порядок размещения карточки (по умолчанию в конец списка)
+function createPlace(item, order = "append") {
+	//получаем разметку карточки
+	const place = getCard(item);
+	//вставляем в код
 	if (order === "prepend") {
 		gridPlaces.prepend(place);
 		//если нет в конец
@@ -49,41 +95,8 @@ function createPlace(places, order = "append") {
 	}
 }
 
-//обходим массив карточек вызывая функцию создания карточки из массива
+//обходим массив карточек вызывая функцию добавления карточки
 initialCards.forEach(createPlace);
-
-//находим в DOM кнопку редактирования профиля (открытия попап)
-const profileEditButton = document.querySelector(".profile__edit-button");
-//находим в DOM кнопку добавления места (открытия попап)
-const profileAddButton = document.querySelector(".profile__add-button");
-//находим блок popup редактирования профиля
-const popupValueUserEdit = document.querySelector(".popup_value_user-edit");
-//находим блок popup добавления места
-const popupValuePlaceAdd = document.querySelector(".popup_value_place-add");
-//находим блок popup открытия изображения
-const popupValueImg = document.querySelector(".popup_value_img");
-//кнопка закрытия попапа редактирования профиля
-const popupСloseUserEdit = document.querySelector(
-	".popup__close_value_user-edit"
-);
-//кнопка закрытия попапа добавления места
-const popupСlosePlaceAdd = document.querySelector(
-	".popup__close_value_place-add"
-);
-//кнопка закрытия попапа картинки
-const popupCloseValueImg = document.querySelector(".popup__close_value_img");
-//находим элемент кнопка сохранить изменения профиля
-const popupSave = document.querySelector(".popup__save");
-//находим элемент с именем профиля
-const profileNameElement = document.querySelector(".profile__name");
-//находим элемент род занятий
-const profileOcupationElement = document.querySelector(".profile__ocupation");
-//находим элемент ввода имени в popup
-const popupInputName = document.querySelector(".popup__input_data_name");
-//находим элемент ввода рода занятий в popup
-const popupInputOcupation = document.querySelector(
-	".popup__input_data_ocupation"
-);
 
 //ФУНКЦИЯ ОТКРЫТИЯ ПОПАПА
 function openPopup(popup) {
@@ -92,114 +105,104 @@ function openPopup(popup) {
 }
 
 //ФУНКЦИЯ ЗАКРЫТИЯ ПОПАПА
-function ClosePopap(popup) {
+function closePopap(popup) {
 	//удаляем класс и popup снова невидим
 	popup.classList.remove("popup_openend");
 }
 
 //ЗАПИСИ в value ТЕКСТА ИЗ ПРОФИЛЯ
-function valuePopap() {
+function recordValueInput() {
 	//из элемента с именем выделяем текст
-	const popupUserName = profileNameElement.textContent;
+	const profileNameText = profileName.textContent;
 	//меняем значение value на текст из элемента с именем профиля
-	popupInputName.value = popupUserName;
+	profileInputName.value = profileNameText;
 	//из элемента род занятий выделяем текст
-	const popupUserOcupation = profileOcupationElement.textContent;
+	const profileOcupationText = profileOcupation.textContent;
 	//меняем значение value на текст из элемента род занятий
-	popupInputOcupation.value = popupUserOcupation;
+	profileInputOcupation.value = profileOcupationText;
 }
 
 //функция получения value из инпутов
-function receiveValue(inputFirst, inputSecond) {
+function gettingValueInput(inputFirst, inputSecond) {
 	//находим элемент первого ввода в popup
-	const valueInputFirst = document.querySelector(inputFirst).value;
+	const valueInputFirst = inputFirst.value;
 	//находим элемент второго ввода в popup
-	const valueInputSecond = document.querySelector(inputSecond).value;
+	const valueInputSecond = inputSecond.value;
 	return [valueInputFirst, valueInputSecond];
 }
 
 //функция записи изменений в профиле
 function saveChangesProfile() {
 	//вызываем функцию получения value
-	const popupInput = receiveValue(
-		".popup__input_data_name",
-		".popup__input_data_ocupation"
-	);
+	const valueInput = gettingValueInput(profileInputName, profileInputOcupation);
 	//присваиваем текстовому полю элемента с именем профиля новое имя из ввода popup
-	profileNameElement.textContent = popupInput[0];
+	profileName.textContent = valueInput[0];
 	//присваиваем текстовому полю элемента с родом занятий новое значение из ввода popup
-	profileOcupationElement.textContent = popupInput[1];
+	profileOcupation.textContent = valueInput[1];
 	//вызываем функцию закрытия попапа
-	ClosePopap(popupValueUserEdit);
+	closePopap(popupProfileEdit);
 }
 
 //функция добавления карточки
-function saveNewCard() {
+function savePlaceNew() {
 	//вызываем функцию получения value
-	const popupInput = receiveValue(
-		".popup__input_data_location",
-		".popup__input_data_link-foto"
-	);
+	const popupInput = gettingValueInput(placeInputLocation, placeInputImg);
 	//вызываем функцию создания карточки и передаем ей созданный массив
 	createPlace({ name: popupInput[0], src: popupInput[1] }, "prepend");
 	//вызываем функцию закрытия попапа
-	ClosePopap(popupValuePlaceAdd);
+	closePopap(popupPlaceAdd);
 }
 
-function openPopupImage(evt) {
+function openPlaceImage(place) {
 	//определяем целевой элемент
-	const imageButton = evt.target.closest(".place");
+	const placeImage = place.querySelector(".place__image");
 	//находим узел img и его атрибут src
-	const srcImage = imageButton.querySelector(".place__image").src;
+	const placeSrcImage = placeImage.src;
 	//открываем попап
-	openPopup(popupValueImg);
-	//находим элемент картинки
-	const popupImg = popupValueImg.querySelector(".figure__img");
-	//добавляем ему атрибут src
-	popupImg.setAttribute("src", srcImage);
+	openPopup(popupImgOpening);
+	//добавляем атрибут src
+	popupImg.setAttribute("src", placeSrcImage);
 	//находим элемент заголовка
-	const titleImage = imageButton.querySelector(".place__title").textContent;
-	//находим элемент подписи к картинке
-	const figureCaption = popupValueImg.querySelector(".figure__caption");
+	const placeTitleImage = place.querySelector(".place__title").textContent;
 	//добавляем элементу текстовое значение
-	figureCaption.textContent = titleImage;
+	placeFigureCaption.textContent = placeTitleImage;
 	//находим у картинки атрибут alt
-	const altImage = imageButton.querySelector(".place__image").alt;
+	const placeAltImage = placeImage.alt;
 	//добавляем атрибут alt
-	popupImg.setAttribute("alt", altImage);
+	popupImg.setAttribute("alt", placeAltImage);
 }
 
 //при нажатии кнопки редактирования профиля
 profileEditButton.addEventListener("click", function () {
 	//вызываем функцию открытия и обновления value инпутов
-	openPopup(popupValueUserEdit);
+	openPopup(popupProfileEdit);
 	//функция записи value текста из профиля
-	valuePopap();
+	recordValueInput();
 });
 
 //при нажатии кнопки добавления места
-profileAddButton.addEventListener("click", function () {
+placeAddButton.addEventListener("click", function () {
 	//вызываем функцию открытия и обновления value инпутов
-	openPopup(popupValuePlaceAdd);
+	openPopup(popupPlaceAdd);
 });
 
 //при нажатии кнопки закрытия popup редактирования профиля
-popupСloseUserEdit.addEventListener("click", function (evt) {
-	ClosePopap(popupValueUserEdit);
+profileCloseButton.addEventListener("click", function (evt) {
+	closePopap(popupProfileEdit);
 });
 
 //при нажатии кнопки закрытия popup добавления места
-popupСlosePlaceAdd.addEventListener("click", function (evt) {
-	ClosePopap(popupValuePlaceAdd);
+placeCloseButton.addEventListener("click", function (evt) {
+	closePopap(popupPlaceAdd);
 });
 
 //при нажатии кнопки закрытия popup картинки
-popupCloseValueImg.addEventListener("click", function (evt) {
-	ClosePopap(popupValueImg);
+imgCloseButton.addEventListener("click", function (evt) {
+	closePopap(popupImgOpening);
 });
 
 //при наступлении события
-popupValueUserEdit.addEventListener("submit", function (evt) {
+popupProfileEdit.addEventListener("submit", function (evt) {
 	//отменяем стандартную отправку формы
 	evt.preventDefault();
 	//вызываем функцию закрытия попапа и записи изменений
@@ -207,25 +210,26 @@ popupValueUserEdit.addEventListener("submit", function (evt) {
 });
 
 //при наступлении события
-popupValuePlaceAdd.addEventListener("submit", function (evt) {
+popupPlaceAdd.addEventListener("submit", function (evt) {
 	//отменяем стандартную отправку формы
 	evt.preventDefault();
 	//вызываем функцию закрытия попапа и создания новой карточки
-	saveNewCard();
+	savePlaceNew();
+	evt.target.reset();
 });
 
 //функция лайка
 function pressLikeButton(evt) {
 	//определяем целевой элемент
-	const likeButton = evt.target;
+	const placeLikebutton = evt.target;
 	//добавляем(убираем) класс
-	likeButton.classList.toggle("place__like_active");
+	placeLikebutton.classList.toggle("place__like_active");
 }
 
 //функция удаления place
 function pressDelButton(evt) {
 	//определяем целевой элемент
-	const buttonDelite = evt.target;
+	const placeDelite = evt.target;
 	//удаляем карточку
-	buttonDelite.closest(".place").remove();
+	placeDelite.closest(".place").remove();
 }
