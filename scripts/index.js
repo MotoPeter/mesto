@@ -102,6 +102,9 @@ initialCards.forEach(createPlace);
 function openPopup(popup) {
 	//добавляем класс что бы popup стал видимым
 	popup.classList.add("popup_openend");
+  //находим и сбрасываем значение формы
+  const form = popup.querySelector('.popup__form')
+  form.reset()
   //добавляем слушатель клавиатуры с вызовом функции закрытия по esc
   document.addEventListener('keydown', closePopupEsc);
   //добавляем слушатель клика
@@ -114,6 +117,8 @@ function closePopap(popup) {
 	popup.classList.remove("popup_openend");
   //удаляем слушатель
   document.removeEventListener('keydown', closePopupEsc);
+  //удаляем слушатель click
+  document.removeEventListener('click', closePopupClick);
 }
 
 //ЗАПИСИ в value ТЕКСТА ИЗ ПРОФИЛЯ
@@ -239,13 +244,14 @@ function pressDelButton(evt) {
 	placeDelite.closest(".place").remove();
 }
 
-//проверка координат щелчка мыши
-function closePopupClick (event) {
-  if (event.target.classList.contains('popup_openend')) {
-    closePopap(event.target)
+//функция закрытия попапа по клику
+function closePopupClick (evt) {
+  if (evt.target.classList.contains('popup_openend')) {
+    closePopap(evt.target)
   }
 };
 
+//функция закрытия попапа по esc
 function closePopupEsc(evt) {
   if (evt.key === 'Escape') {
     const popup = document.querySelector('.popup_openend');
