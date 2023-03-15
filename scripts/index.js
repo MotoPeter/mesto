@@ -102,12 +102,18 @@ initialCards.forEach(createPlace);
 function openPopup(popup) {
 	//добавляем класс что бы popup стал видимым
 	popup.classList.add("popup_openend");
+  //добавляем слушатель клавиатуры с вызовом функции закрытия по esc
+  document.addEventListener('keydown', closePopupEsc);
+  //добавляем слушатель клика
+  document.addEventListener('click', closePopupClick);
 }
 
 //ФУНКЦИЯ ЗАКРЫТИЯ ПОПАПА
 function closePopap(popup) {
 	//удаляем класс и popup снова невидим
 	popup.classList.remove("popup_openend");
+  //удаляем слушатель
+  document.removeEventListener('keydown', closePopupEsc);
 }
 
 //ЗАПИСИ в value ТЕКСТА ИЗ ПРОФИЛЯ
@@ -153,8 +159,8 @@ function savePlaceNew() {
 	closePopap(popupPlaceAdd);
 }
 
+//функция открытия картинки
 function openPlaceImage(item) {
-  console.log(item)
 	//находим узел img и его атрибут src
 	const placeSrcImage = item.src;
 	//открываем попап
@@ -203,7 +209,7 @@ imgCloseButton.addEventListener("click", function (evt) {
 //при наступлении события
 popupProfileEdit.addEventListener("submit", function (evt) {
 	//отменяем стандартную отправку формы
-	evt.preventDefault();
+	//evt.preventDefault();
 	//вызываем функцию закрытия попапа и записи изменений
 	saveChangesProfile();
 });
@@ -211,7 +217,7 @@ popupProfileEdit.addEventListener("submit", function (evt) {
 //при наступлении события
 popupPlaceAdd.addEventListener("submit", function (evt) {
 	//отменяем стандартную отправку формы
-	evt.preventDefault();
+	//evt.preventDefault();
 	//вызываем функцию закрытия попапа и создания новой карточки
 	savePlaceNew();
 	evt.target.reset();
@@ -231,4 +237,18 @@ function pressDelButton(evt) {
 	const placeDelite = evt.target;
 	//удаляем карточку
 	placeDelite.closest(".place").remove();
+}
+
+//проверка координат щелчка мыши
+function closePopupClick (event) {
+  if (event.target.classList.contains('popup_openend')) {
+    closePopap(event.target)
+  }
+};
+
+function closePopupEsc(evt) {
+  if (evt.key === 'Escape') {
+    const popup = document.querySelector('.popup_openend');
+    closePopap(popup);
+  }
 }
