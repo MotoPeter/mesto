@@ -100,12 +100,12 @@ initialCards.forEach(createPlace);
 
 //ФУНКЦИЯ ОТКРЫТИЯ ПОПАПА
 function openPopup(popup) {
-  //находим форму
-  const formElement = popup.querySelector('.popup__form')
-  //вызываем функцию запуска валидации
-  enableValidation(formElement);
+  //находим форму переданного попапа
+  const formElement = popup.querySelector('.popup__form')  
 	//добавляем класс что бы popup стал видимым
 	popup.classList.add("popup_openend");  
+  //вызываем функцию запуска валидации
+  enableValidation(formElement);
   //добавляем слушатель клавиатуры с вызовом функции закрытия по esc
   document.addEventListener('keydown', closePopupEsc);
   //добавляем слушатель клика
