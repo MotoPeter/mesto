@@ -41,7 +41,10 @@
 				<section class="grid-places">
 					<template id="placeTempLate">
 						<article class="place">
-							<button type="button" class="button place__image-button popup__save_condition_hover">
+							<button
+								type="button"
+								class="button place__image-button popup__save_condition_hover"
+							>
 								<img class="place__image" />
 							</button>
 							<div class="place__text">
@@ -73,28 +76,38 @@
 						class="popup__close popup__close_value_user-edit button button_condition_hover"
 					></button>
 					<h3 class="popup__title">Редактировать профиль</h3>
-					<form class="popup__form" name="user-edit">
+					<form class="popup__form" name="user-edit" novalidate>
 						<fieldset class="popup__fieldset">
-							<input
-								name="user-name"
-								value=""
-								placeholder="имя"
-								required
-								autocomplete="off"
-								class="popup__input popup__input-first popup__input_data_name"
-								type="text"
-                minlength="2" maxlength="40"
-							/>
-							<input
-								name="user-ocupation"
-								value=""
-								placeholder="род занятий"
-								required
-								autocomplete="off"
-								class="popup__input popup__input-second popup__input_data_ocupation"
-								type="text"
-                minlength="2" maxlength="200"
-							/>
+							<label class="popup__label popup__form_data_name">
+								<input
+									id="name-input"
+									name="user-name"
+									value=""
+									placeholder="имя"
+									required
+									autocomplete="off"
+									class="popup__input popup__input-first popup__input_data_name"
+									type="text"
+									minlength="2"
+									maxlength="40"
+								/>
+								<span class="name-input-error popup__input-error"></span>
+							</label>
+							<label class="popup__label popup__form_data_ocupation">
+								<input
+									id="ocupation-input"
+									name="user-ocupation"
+									value=""
+									placeholder="род занятий"
+									required
+									autocomplete="off"
+									class="popup__input popup__input-second popup__input_data_ocupation"
+									type="text"
+									minlength="2"
+									maxlength="200"
+								/>
+								<span class="ocupation-input-error popup__input-error"></span>
+							</label>
 						</fieldset>
 						<button
 							type="submit"
@@ -113,26 +126,35 @@
 						class="popup__close popup__close_value_place-add button button_condition_hover"
 					></button>
 					<h3 class="popup__title">Новое место</h3>
-					<form name="place-add" class="popup__form">
+					<form name="place-add" class="popup__form" novalidate>
 						<fieldset class="popup__fieldset">
-							<input
-								name="place-name"
-								value=""
-								placeholder="Название"
-								required
-								autocomplete="off"
-								class="popup__input popup__input_data_location"
-								type="text"
-                minlength="2" maxlength="30"
-							/>
-							<input
-								name="link-foto"
-								placeholder="Ссылка на картинку"
-								required
-								autocomplete="off"
-								class="popup__input_data_link-foto popup__input"
-								type="url"
-							/>
+							<label class="popup__label popup__form_data_location">
+								<input
+									id="place-input"
+									name="place-name"
+									value=""
+									placeholder="Название"
+									required
+									autocomplete="off"
+									class="popup__input popup__input_data_location popup__input-first"
+									type="text"
+									minlength="2"
+									maxlength="30"
+								/>
+								<span class="place-input-error popup__input-error"></span>
+							</label>
+							<label class="popup__label popup__form_data_link-foto">
+								<input
+									id="link-input"
+									name="link-foto"
+									placeholder="Ссылка на картинку"
+									required
+									autocomplete="off"
+									class="popup__input_data_link-foto popup__input"
+									type="url"
+								/>
+								<span class="link-input-error popup__input-error"></span>
+							</label>
 						</fieldset>
 						<button
 							type="submit"
@@ -158,6 +180,6 @@
 			</div>
 		</div>
 		<script src="./scripts/index.js"></script>
-    <script src="./scripts/validate.js"></script>
+		<script src="./scripts/validate.js"></script>
 	</body>
 </html>

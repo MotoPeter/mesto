@@ -100,15 +100,16 @@ initialCards.forEach(createPlace);
 
 //ФУНКЦИЯ ОТКРЫТИЯ ПОПАПА
 function openPopup(popup) {
+  //находим форму
+  const formElement = popup.querySelector('.popup__form')
+  //вызываем функцию запуска валидации
+  enableValidation(formElement);
 	//добавляем класс что бы popup стал видимым
-	popup.classList.add("popup_openend");
-  //находим и сбрасываем значение формы
-  const form = popup.querySelector('.popup__form')
-  form.reset()
+	popup.classList.add("popup_openend");  
   //добавляем слушатель клавиатуры с вызовом функции закрытия по esc
   document.addEventListener('keydown', closePopupEsc);
   //добавляем слушатель клика
-  document.addEventListener('click', closePopupClick);
+  document.addEventListener('click', closePopupClick);  
 }
 
 //ФУНКЦИЯ ЗАКРЫТИЯ ПОПАПА
@@ -119,6 +120,12 @@ function closePopap(popup) {
   document.removeEventListener('keydown', closePopupEsc);
   //удаляем слушатель click
   document.removeEventListener('click', closePopupClick);
+  //убираем ошибки валидации
+  const form = popup.querySelector('.popup__form');
+  const inputList = popup.querySelectorAll('.popup__input');
+  inputList.forEach((input) => {
+  hideInputError(form, input);
+  });
 }
 
 //ЗАПИСИ в value ТЕКСТА ИЗ ПРОФИЛЯ
@@ -194,6 +201,10 @@ profileEditButton.addEventListener("click", function () {
 placeAddButton.addEventListener("click", function () {
 	//вызываем функцию открытия и обновления value инпутов
 	openPopup(popupPlaceAdd);
+  // находим форму
+  const form = popupPlaceAdd.querySelector('.popup__form')
+  //сбрасываем ее значение
+  form.reset()
 });
 
 //при нажатии кнопки закрытия popup редактирования профиля
