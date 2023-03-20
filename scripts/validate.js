@@ -26,14 +26,14 @@ const toggleButtonState = (inputList, buttonElement) => {
 		buttonElement.disabled = true;
 		//добавляем класс
 		buttonElement.classList.add("popup__save_inactive");
-    //удаляем класс стилизации по наведению
+		//удаляем класс стилизации по наведению
 		buttonElement.classList.remove("popup__save_condition_hover");
 	} else {
 		//убираем класс
 		buttonElement.classList.remove("popup__save_inactive");
 		//кнопка активна
 		buttonElement.disabled = false;
-    //добавляем класс по focus
+		//добавляем класс по focus
 		buttonElement.classList.add("popup__save_condition_hover");
 	}
 };
@@ -47,7 +47,7 @@ const setEventListeners = (formElement) => {
 	// делаем кнопку не активной
 	toggleButtonState(inputList, buttonElement);
 	// перебираем инпуты
-	inputList.forEach((inputElement) => {	
+	inputList.forEach((inputElement) => {
 		//для каждого ставим событие на ввод
 		inputElement.addEventListener("input", function (evt) {
 			//вызываем функцию проверки валидности
