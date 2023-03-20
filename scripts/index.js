@@ -49,13 +49,21 @@ const placeFigureCaption = popupImgOpening.querySelector(".figure__caption");
 
 //находим в DOM элемент размещения карточек
 const gridPlaces = document.querySelector(".grid-places");
+//находим в DOM элемент шаблона карточки
+const placeTempLate = document.getElementById("placeTempLate");
+// находим форму в попапе добавления карточки
+const formPlaceAdd = popupPlaceAdd.querySelector(".popup__form");
+//кнопка сохранения новой карточки
+const buttonSavePlaceAdd = popupPlaceAdd.querySelector('.popup__save')
+//кнопка сохранения изменений в профиле
+const buttonSaveProfileEdit = popupProfileEdit.querySelector('.popup__save')
+//находим кнопки закрытия всех попапов
+const closeButtons = document.querySelectorAll(".popup__close");
 
 // функция создания карточки
 function getCard(item) {
-	//находим в DOM элемнет шаблона карточки
-	const place = document
-		.getElementById("placeTempLate")
-		.content.cloneNode(true);
+	//клонируем содержимое темплейта карточки
+	const place = placeTempLate.content.cloneNode(true);
 	//находим элемент заголовка карточки
 	const placeTitle = place.querySelector(".place__title");
 	//добавляем в элемент заголовка значение name карточки из массива
@@ -100,14 +108,8 @@ initialCards.forEach(createPlace);
 
 //ФУНКЦИЯ ОТКРЫТИЯ ПОПАПА
 function openPopup(popup) {
-	//находим форму переданного попапа
-	const formElement = popup.querySelector(".popup__form");
 	//добавляем класс что бы popup стал видимым
 	popup.classList.add("popup_openend");
-	if (formElement) {
-		//вызываем функцию запуска валидации
-		enableValidation(formElement);
-	}
 	//добавляем слушатель клавиатуры с вызовом функции закрытия по esc
 	document.addEventListener("keydown", closePopupEsc);
 	//добавляем слушатель клика
@@ -122,12 +124,6 @@ function closePopap(popup) {
 	document.removeEventListener("keydown", closePopupEsc);
 	//удаляем слушатель click
 	document.removeEventListener("click", closePopupClick);
-	//убираем ошибки валидации
-	const form = popup.querySelector(".popup__form");
-	const inputList = popup.querySelectorAll(".popup__input");
-	inputList.forEach((input) => {
-		hideInputError(form, input);
-	});
 }
 
 //ЗАПИСИ в value ТЕКСТА ИЗ ПРОФИЛЯ
@@ -191,51 +187,62 @@ function openPlaceImage(item) {
 	popupImg.setAttribute("alt", placeAltImage);
 }
 
+//функция сброса валидации
+function resetValid(popup) {
+	const form = popup.querySelector(".popup__form");
+	const inputList = popup.querySelectorAll(".popup__input");
+	inputList.forEach((input) => {
+		hideInputError(form, input, "popup__input_type_error", "popup__input-error_active");
+	});
+}
+
 //при нажатии кнопки редактирования профиля
 profileEditButton.addEventListener("click", function () {
 	//вызываем функцию открытия и обновления value инпутов
 	openPopup(popupProfileEdit);
 	//функция записи value текста из профиля
 	recordValueInput();
+	//функцию сброса ошибок валидации
+	resetValid(popupProfileEdit);
+	//вызываем функцию отмены отправки формы
+	cancelStandardBehavior();
+  //делаем кнопку не активной
+  offButton(buttonSaveProfileEdit, "popup__save_inactive", "popup__save_condition_hover");
 });
 
 //при нажатии кнопки добавления места
 placeAddButton.addEventListener("click", function () {
 	//вызываем функцию открытия и обновления value инпутов
 	openPopup(popupPlaceAdd);
-	// находим форму
-	const form = popupPlaceAdd.querySelector(".popup__form");
-	//сбрасываем ее значение
-	form.reset();
+	//сбрасываем значение формы
+	formPlaceAdd.reset();
+	//функцию сброса ошибок валидации
+	resetValid(popupPlaceAdd);
+	//вызываем функцию отмены отправки формы
+	cancelStandardBehavior();
+  //делаем кнопку не активной
+  offButton(buttonSavePlaceAdd, "popup__save_inactive", "popup__save_condition_hover");
 });
 
-//при нажатии кнопки закрытия popup редактирования профиля
-profileCloseButton.addEventListener("click", function (evt) {
-	closePopap(popupProfileEdit);
-});
-
-//при нажатии кнопки закрытия popup добавления места
-placeCloseButton.addEventListener("click", function (evt) {
-	closePopap(popupPlaceAdd);
-});
-
-//при нажатии кнопки закрытия popup картинки
-imgCloseButton.addEventListener("click", function (evt) {
-	closePopap(popupImgOpening);
+//обходим кнопки закрытия
+closeButtons.forEach((button) => {
+	//находим ближайший к кнопке попап
+	const popup = button.closest(".popup");
+	//устанавливаем обработчик закрытия на крестик
+	button.addEventListener("click", function () {
+		//вызываем функцию закрытия попапа
+		closePopap(popup);
+	});
 });
 
 //при наступлении события
 popupProfileEdit.addEventListener("submit", function (evt) {
-	//отменяем стандартную отправку формы
-	//evt.preventDefault();
 	//вызываем функцию закрытия попапа и записи изменений
 	saveChangesProfile();
 });
 
 //при наступлении события
 popupPlaceAdd.addEventListener("submit", function (evt) {
-	//отменяем стандартную отправку формы
-	//evt.preventDefault();
 	//вызываем функцию закрытия попапа и создания новой карточки
 	savePlaceNew();
 	evt.target.reset();
