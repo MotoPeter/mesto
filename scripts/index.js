@@ -100,32 +100,34 @@ initialCards.forEach(createPlace);
 
 //ФУНКЦИЯ ОТКРЫТИЯ ПОПАПА
 function openPopup(popup) {
-  //находим форму переданного попапа
-  const formElement = popup.querySelector('.popup__form')  
+	//находим форму переданного попапа
+	const formElement = popup.querySelector(".popup__form");
 	//добавляем класс что бы popup стал видимым
-	popup.classList.add("popup_openend");  
-  //вызываем функцию запуска валидации
-  enableValidation(formElement);
-  //добавляем слушатель клавиатуры с вызовом функции закрытия по esc
-  document.addEventListener('keydown', closePopupEsc);
-  //добавляем слушатель клика
-  document.addEventListener('click', closePopupClick);  
+	popup.classList.add("popup_openend");
+	if (formElement) {
+		//вызываем функцию запуска валидации
+		enableValidation(formElement);
+	}
+	//добавляем слушатель клавиатуры с вызовом функции закрытия по esc
+	document.addEventListener("keydown", closePopupEsc);
+	//добавляем слушатель клика
+	document.addEventListener("click", closePopupClick);
 }
 
 //ФУНКЦИЯ ЗАКРЫТИЯ ПОПАПА
 function closePopap(popup) {
 	//удаляем класс и popup снова невидим
 	popup.classList.remove("popup_openend");
-  //удаляем слушатель
-  document.removeEventListener('keydown', closePopupEsc);
-  //удаляем слушатель click
-  document.removeEventListener('click', closePopupClick);
-  //убираем ошибки валидации
-  const form = popup.querySelector('.popup__form');
-  const inputList = popup.querySelectorAll('.popup__input');
-  inputList.forEach((input) => {
-  hideInputError(form, input);
-  });
+	//удаляем слушатель
+	document.removeEventListener("keydown", closePopupEsc);
+	//удаляем слушатель click
+	document.removeEventListener("click", closePopupClick);
+	//убираем ошибки валидации
+	const form = popup.querySelector(".popup__form");
+	const inputList = popup.querySelectorAll(".popup__input");
+	inputList.forEach((input) => {
+		hideInputError(form, input);
+	});
 }
 
 //ЗАПИСИ в value ТЕКСТА ИЗ ПРОФИЛЯ
@@ -184,7 +186,7 @@ function openPlaceImage(item) {
 	//добавляем элементу текстовое значение
 	placeFigureCaption.textContent = placeTitleImage;
 	//находим у картинки атрибут alt
-	const placeAltImage = item.name + '.';
+	const placeAltImage = item.name + ".";
 	//добавляем атрибут alt
 	popupImg.setAttribute("alt", placeAltImage);
 }
@@ -201,10 +203,10 @@ profileEditButton.addEventListener("click", function () {
 placeAddButton.addEventListener("click", function () {
 	//вызываем функцию открытия и обновления value инпутов
 	openPopup(popupPlaceAdd);
-  // находим форму
-  const form = popupPlaceAdd.querySelector('.popup__form')
-  //сбрасываем ее значение
-  form.reset()
+	// находим форму
+	const form = popupPlaceAdd.querySelector(".popup__form");
+	//сбрасываем ее значение
+	form.reset();
 });
 
 //при нажатии кнопки закрытия popup редактирования профиля
@@ -256,16 +258,16 @@ function pressDelButton(evt) {
 }
 
 //функция закрытия попапа по клику
-function closePopupClick (evt) {
-  if (evt.target.classList.contains('popup_openend')) {
-    closePopap(evt.target)
-  }
-};
+function closePopupClick(evt) {
+	if (evt.target.classList.contains("popup_openend")) {
+		closePopap(evt.target);
+	}
+}
 
 //функция закрытия попапа по esc
 function closePopupEsc(evt) {
-  if (evt.key === 'Escape') {
-    const popup = document.querySelector('.popup_openend');
-    closePopap(popup);
-  }
+	if (evt.key === "Escape") {
+		const popup = document.querySelector(".popup_openend");
+		closePopap(popup);
+	}
 }

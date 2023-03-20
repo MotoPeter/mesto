@@ -26,30 +26,32 @@ const toggleButtonState = (inputList, buttonElement) => {
 		buttonElement.disabled = true;
 		//добавляем класс
 		buttonElement.classList.add("popup__save_inactive");
+    //удаляем класс стилизации по наведению
 		buttonElement.classList.remove("popup__save_condition_hover");
 	} else {
-		//кнопка активна
+		//убираем класс
 		buttonElement.classList.remove("popup__save_inactive");
-		//кнопка неактивна
+		//кнопка активна
 		buttonElement.disabled = false;
+    //добавляем класс по focus
 		buttonElement.classList.add("popup__save_condition_hover");
 	}
 };
 
 //функция слушателя
 const setEventListeners = (formElement) => {
-	// Находим все инпуты внутри формы,
+	// Находим все инпуты внутри формы
 	const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
 	// Найдим в форме кнопку
 	const buttonElement = formElement.querySelector(".popup__save");
 	// делаем кнопку не активной
 	toggleButtonState(inputList, buttonElement);
 	// перебираем инпуты
-	inputList.forEach((input) => {	
+	inputList.forEach((inputElement) => {	
 		//для каждого ставим событие на ввод
-		input.addEventListener("input", function (evt) {
+		inputElement.addEventListener("input", function (evt) {
 			//вызываем функцию проверки валидности
-			isValid(formElement, input);
+			isValid(formElement, inputElement);
 			// вызываем функцию активации кнопки
 			toggleButtonState(inputList, buttonElement);
 		});
@@ -57,14 +59,14 @@ const setEventListeners = (formElement) => {
 };
 
 ///проверяем валидность
-const isValid = (form, input) => {
+const isValid = (formElement, inputElement) => {
 	//если ввод валиден
-	if (input.validity.valid) {
+	if (inputElement.validity.valid) {
 		//передаем форму и ввод в функцию отключения показа ошибки
-		hideInputError(form, input);
+		hideInputError(formElement, inputElement);
 	} else {
 		//если инпут не валиден передаем форму, инпут и текст ошибки в функцию показа ошибки
-		showInputError(form, input, input.validationMessage);
+		showInputError(formElement, inputElement, inputElement.validationMessage);
 	}
 };
 
