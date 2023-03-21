@@ -111,5 +111,4 @@ const hideInputError = (formElement, inputElement) => {
 enableValidation({
 	inputSelector: ".popup__input",
 	saveSelector: ".popup__save",
-	saveInactiveClass: "popup__save_inactive",
 });

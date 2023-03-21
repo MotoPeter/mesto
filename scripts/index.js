@@ -222,9 +222,7 @@ placeAddButton.addEventListener("click", function () {
 	cancelStandardBehavior();
 	//делаем кнопку не активной
 	offButton(
-		buttonSavePlaceAdd,
-		"popup__save_inactive",
-		"popup__save_condition_hover"
+		buttonSavePlaceAdd
 	);
 });
 
