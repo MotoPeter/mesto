@@ -1,5 +1,14 @@
 //находим все формы в документе
 const formList = Array.from(document.forms);
+//конфиг со значениями, используемыми при валидации
+const validationConfig = {
+  inputSelector: ".popup__input",
+	saveSelector: ".popup__save",
+	errorInputClass: "popup__input_type_error",
+	errorElementClass: "popup__input-error_active",
+	saveConditionHoverClass: "popup__save_condition_hover",
+	saveInactiveClass: "popup__save_inactive"
+};
 
 const cancelStandardBehavior = () => {
 	//при submit
@@ -35,8 +44,7 @@ const hasInvalidInput = (inputList) => {
 };
 
 //функция выключения кнопки кнопки
-function offButton(buttonElement, saveConditionHoverClass,
-  saveInactiveClass) {
+function offButton(buttonElement, saveConditionHoverClass, saveInactiveClass) {
 	//кнопка неактивна
 	buttonElement.disabled = true;
 	//добавляем класс
@@ -46,8 +54,11 @@ function offButton(buttonElement, saveConditionHoverClass,
 }
 
 //функция включения кнопки
-const onButton = (buttonElement, saveConditionHoverClass,
-  saveInactiveClass) => {
+const onButton = (
+	buttonElement,
+	saveConditionHoverClass,
+	saveInactiveClass
+) => {
 	//убираем класс
 	buttonElement.classList.remove(saveInactiveClass);
 	//кнопка активна
@@ -57,24 +68,31 @@ const onButton = (buttonElement, saveConditionHoverClass,
 };
 
 // Функция активации кнопки
-const toggleButtonState = (inputList, buttonElement, saveConditionHoverClass,
-  saveInactiveClass) => {
+const toggleButtonState = (
+	inputList,
+	buttonElement,
+	saveConditionHoverClass,
+	saveInactiveClass
+) => {
 	// Если есть хотя бы один невалидный инпут
 	if (hasInvalidInput(inputList)) {
 		//функция выключения кнопки
-		offButton(buttonElement, saveConditionHoverClass,
-      saveInactiveClass);
+		offButton(buttonElement, saveConditionHoverClass, saveInactiveClass);
 	} else {
-		onButton(buttonElement, saveConditionHoverClass,
-      saveInactiveClass);
+		onButton(buttonElement, saveConditionHoverClass, saveInactiveClass);
 	}
 };
 
 //функция слушателя
-const setEventListeners = (formElement, inputSelector, saveSelector, errorInputClass,
-  errorElementClass,
-  saveConditionHoverClass,
-  saveInactiveClass) => {
+const setEventListeners = (
+	formElement,
+	inputSelector,
+	saveSelector,
+	errorInputClass,
+	errorElementClass,
+	saveConditionHoverClass,
+	saveInactiveClass
+) => {
 	// Находим все инпуты внутри формы
 	const inputList = Array.from(formElement.querySelectorAll(inputSelector));
 	// Найдим в форме кнопку
@@ -84,33 +102,54 @@ const setEventListeners = (formElement, inputSelector, saveSelector, errorInputC
 		//для каждого ставим событие на ввод
 		inputElement.addEventListener("input", function (evt) {
 			//вызываем функцию проверки валидности
-			isValid(formElement, inputElement, errorInputClass,
-        errorElementClass);
+			isValid(formElement, inputElement, errorInputClass, errorElementClass);
 			// вызываем функцию активации кнопки
-			toggleButtonState(inputList, buttonElement, saveConditionHoverClass,
-        saveInactiveClass);
+			toggleButtonState(
+				inputList,
+				buttonElement,
+				saveConditionHoverClass,
+				saveInactiveClass
+			);
 		});
 	});
 };
 
 ///проверяем валидность
-const isValid = (formElement, inputElement, errorInputClass,
-  errorElementClass) => {
+const isValid = (
+	formElement,
+	inputElement,
+	errorInputClass,
+	errorElementClass
+) => {
 	//если ввод валиден
 	if (inputElement.validity.valid) {
 		//передаем форму и ввод в функцию отключения показа ошибки
-		hideInputError(formElement, inputElement, errorInputClass,
-      errorElementClass);
+		hideInputError(
+			formElement,
+			inputElement,
+			errorInputClass,
+			errorElementClass
+		);
 	} else {
 		//если инпут не валиден передаем форму, инпут и текст ошибки в функцию показа ошибки
-		showInputError(formElement, inputElement, inputElement.validationMessage, errorInputClass,
-      errorElementClass);
+		showInputError(
+			formElement,
+			inputElement,
+			inputElement.validationMessage,
+			errorInputClass,
+			errorElementClass
+		);
 	}
 };
 
 //функция отображения ошибки. Принимает форму, ввод и текст ошибки
-const showInputError = (formElement, inputElement, errorMessage, errorInputClass,
-  errorElementClass) => {
+const showInputError = (
+	formElement,
+	inputElement,
+	errorMessage,
+	errorInputClass,
+	errorElementClass
+) => {
 	// Находим span по классу
 	const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 	//добавляем инпуту класс, показывающий ошибку
@@ -122,8 +161,12 @@ const showInputError = (formElement, inputElement, errorMessage, errorInputClass
 };
 
 //функция отключения показа ошибки
-const hideInputError = (formElement, inputElement, errorInputClass,
-  errorElementClass) => {
+const hideInputError = (
+	formElement,
+	inputElement,
+	errorInputClass,
+	errorElementClass
+) => {
 	// Находим элемент ошибки
 	const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 	//удаляем классы
@@ -131,11 +174,4 @@ const hideInputError = (formElement, inputElement, errorInputClass,
 	errorElement.classList.remove(errorElementClass);
 };
 
-enableValidation({
-	inputSelector: ".popup__input",
-	saveSelector: ".popup__save",
-	errorInputClass: "popup__input_type_error",
-	errorElementClass: "popup__input-error_active",
-	saveConditionHoverClass: "popup__save_condition_hover",
-	saveInactiveClass: "popup__save_inactive",
-});
+enableValidation(validationConfig);

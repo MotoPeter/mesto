@@ -61,9 +61,9 @@ const buttonSaveProfileEdit = popupProfileEdit.querySelector(".popup__save");
 const closeButtons = document.querySelectorAll(".popup__close");
 
 const errorInputClass = "popup__input_type_error";
-const	errorElementClass = "popup__input-error_active";
-const	saveConditionHoverClass = "popup__save_condition_hover";
-const	saveInactiveClass = "popup__save_inactive";
+const errorElementClass = "popup__input-error_active";
+const saveConditionHoverClass = "popup__save_condition_hover";
+const saveInactiveClass = "popup__save_inactive";
 
 // функция создания карточки
 function getCard(item) {
@@ -197,8 +197,12 @@ function resetValid(popup) {
 	const form = popup.querySelector(".popup__form");
 	const inputList = popup.querySelectorAll(".popup__input");
 	inputList.forEach((input) => {
-		hideInputError(form, input, errorInputClass,
-      errorElementClass);
+		hideInputError(
+			form,
+			input,
+			validationConfig.errorInputClass,
+			validationConfig.errorElementClass
+		);
 	});
 }
 
@@ -213,8 +217,11 @@ profileEditButton.addEventListener("click", function () {
 	//вызываем функцию отмены отправки формы
 	cancelStandardBehavior();
 	//делаем кнопку не активной
-	offButton(buttonSaveProfileEdit, saveConditionHoverClass,
-    saveInactiveClass);
+	offButton(
+		buttonSaveProfileEdit,
+		validationConfig.saveConditionHoverClass,
+		validationConfig.saveInactiveClass
+	);
 });
 
 //при нажатии кнопки добавления места
@@ -229,8 +236,9 @@ placeAddButton.addEventListener("click", function () {
 	cancelStandardBehavior();
 	//делаем кнопку не активной
 	offButton(
-		buttonSavePlaceAdd, saveConditionHoverClass,
-    saveInactiveClass
+		buttonSavePlaceAdd,
+		validationConfig.saveConditionHoverClass,
+		validationConfig.saveInactiveClass
 	);
 });
 
