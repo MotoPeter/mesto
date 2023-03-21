@@ -54,9 +54,9 @@ const placeTempLate = document.getElementById("placeTempLate");
 // находим форму в попапе добавления карточки
 const formPlaceAdd = popupPlaceAdd.querySelector(".popup__form");
 //кнопка сохранения новой карточки
-const buttonSavePlaceAdd = popupPlaceAdd.querySelector('.popup__save')
+const buttonSavePlaceAdd = popupPlaceAdd.querySelector(".popup__save");
 //кнопка сохранения изменений в профиле
-const buttonSaveProfileEdit = popupProfileEdit.querySelector('.popup__save')
+const buttonSaveProfileEdit = popupProfileEdit.querySelector(".popup__save");
 //находим кнопки закрытия всех попапов
 const closeButtons = document.querySelectorAll(".popup__close");
 
@@ -192,7 +192,7 @@ function resetValid(popup) {
 	const form = popup.querySelector(".popup__form");
 	const inputList = popup.querySelectorAll(".popup__input");
 	inputList.forEach((input) => {
-		hideInputError(form, input, "popup__input_type_error", "popup__input-error_active");
+		hideInputError(form, input);
 	});
 }
 
@@ -206,8 +206,8 @@ profileEditButton.addEventListener("click", function () {
 	resetValid(popupProfileEdit);
 	//вызываем функцию отмены отправки формы
 	cancelStandardBehavior();
-  //делаем кнопку не активной
-  offButton(buttonSaveProfileEdit, "popup__save_inactive", "popup__save_condition_hover");
+	//делаем кнопку не активной
+	offButton(buttonSaveProfileEdit);
 });
 
 //при нажатии кнопки добавления места
@@ -220,8 +220,12 @@ placeAddButton.addEventListener("click", function () {
 	resetValid(popupPlaceAdd);
 	//вызываем функцию отмены отправки формы
 	cancelStandardBehavior();
-  //делаем кнопку не активной
-  offButton(buttonSavePlaceAdd, "popup__save_inactive", "popup__save_condition_hover");
+	//делаем кнопку не активной
+	offButton(
+		buttonSavePlaceAdd,
+		"popup__save_inactive",
+		"popup__save_condition_hover"
+	);
 });
 
 //обходим кнопки закрытия
