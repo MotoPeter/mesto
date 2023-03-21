@@ -2,12 +2,12 @@
 const formList = Array.from(document.forms);
 //конфиг со значениями, используемыми при валидации
 const validationConfig = {
-  inputSelector: ".popup__input",
+	inputSelector: ".popup__input",
 	saveSelector: ".popup__save",
 	errorInputClass: "popup__input_type_error",
 	errorElementClass: "popup__input-error_active",
 	saveConditionHoverClass: "popup__save_condition_hover",
-	saveInactiveClass: "popup__save_inactive"
+	saveInactiveClass: "popup__save_inactive",
 };
 
 const cancelStandardBehavior = () => {
