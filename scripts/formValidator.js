@@ -57,7 +57,7 @@ export class FormValidator {
 	}
 
 	//функция выключения кнопки кнопки
-	offButton() {
+	_offButton() {
 		//кнопка неактивна
 		this._buttonElement.disabled = true;
 		//добавляем класс
@@ -81,7 +81,7 @@ export class FormValidator {
 		// Если есть хотя бы один невалидный инпут
 		if (this._hasInvalidInput()) {
 			//функция выключения кнопки
-			this.offButton(
+			this._offButton(
 				this._buttonElement,
 				this._saveConditionHoverClass,
 				this._saveInactiveClass
@@ -96,7 +96,7 @@ export class FormValidator {
 	}
 
 	//функция сброса валидации
-	resetValid() {
+	_resetValid() {
 		this._inputList.forEach((input) => {
 			this._hideInputError(input);
 		});
@@ -112,6 +112,9 @@ export class FormValidator {
 		this._buttonElement = this._formElement.querySelector(this._saveSelector);
 		// перебираем инпуты
 		this._inputList.forEach((inputElement) => {
+			//функцию сброса ошибок валидации
+			this._resetValid();
+      this._offButton();
 			//для каждого ставим событие на ввод
 			inputElement.addEventListener("input", () => {
 				//вызываем функцию проверки валидности

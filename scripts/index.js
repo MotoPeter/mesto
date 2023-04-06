@@ -17,11 +17,14 @@ import { closeButtons } from "./constants.js";
 import { validationConfig } from "./constants.js";
 import { Card } from "./card.js";
 import { FormValidator } from "./formValidator.js";
+import { popupImgOpening } from "./constants.js";
+import { popupImg } from "./constants.js";
+import { placeFigureCaption } from "./constants.js";
 
 // функция вставки карточки в разметку. Второй параметр указывет на порядок размещения карточки (по умолчанию в конец списка)
 function createPlace(item, order = "append") {
 	//получаем разметку карточки
-	const card = new Card(item, placeTemplate);
+	const card = new Card(item, placeTemplate, openPlaceImage);
 	//вызываем метод создания карточки
 	const place = card.generatePlace();
 	//вставляем в код
@@ -52,6 +55,24 @@ function openPopup(popup) {
 	document.addEventListener("keydown", closePopupEsc);
 	//добавляем слушатель клика
 	document.addEventListener("click", closePopupClick);
+}
+
+//функция открытия картинки
+export function openPlaceImage(item) {
+	//находим узел img и его атрибут src
+	const placeSrcImage = this._link;
+	//открываем попап
+	openPopup(popupImgOpening);
+	//добавляем атрибут src
+	popupImg.setAttribute("src", placeSrcImage);
+	//находим элемент заголовка
+	const placeTitleImage = this._title;
+	//добавляем элементу текстовое значение
+	placeFigureCaption.textContent = placeTitleImage;
+	//находим у картинки атрибут alt
+	const placeAltImage = this._title + ".";
+	//добавляем атрибут alt
+	popupImg.setAttribute("alt", placeAltImage);
 }
 
 //ФУНКЦИЯ ЗАКРЫТИЯ ПОПАПА
@@ -119,12 +140,12 @@ profileEditButton.addEventListener("click", function () {
 	const formValidator = new FormValidator(formProfileEdit, validationConfig);
 	//запускаем метод класса валидации
 	formValidator.setEventListeners();
-	//функцию сброса ошибок валидации
-	formValidator.resetValid();
+	////функцию сброса ошибок валидации
+	//formValidator.resetValid();
 	//вызываем функцию отмены отправки формы
 	cancelStandardBehavior();
 	//делаем кнопку не активной
-	formValidator.offButton();
+	//formValidator.offButton();
 });
 
 //при нажатии кнопки добавления места
@@ -138,11 +159,11 @@ placeAddButton.addEventListener("click", function () {
 	//запускаем метод класса валидации
 	formValidator.setEventListeners();
 	//функцию сброса ошибок валидации
-	formValidator.resetValid();
+	//formValidator.resetValid();
 	//вызываем функцию отмены отправки формы
 	cancelStandardBehavior();
 	//делаем кнопку не активной
-	formValidator.offButton();
+	//formValidator.offButton();
 });
 
 //обходим кнопки закрытия

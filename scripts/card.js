@@ -1,13 +1,15 @@
-import { popupImgOpening } from "./constants.js";
-import { popupImg } from "./constants.js";
-import { placeFigureCaption } from "./constants.js";
+//import { popupImgOpening } from "./constants.js";
+//import { popupImg } from "./constants.js";
+//import { placeFigureCaption } from "./constants.js";
+//import {openPlaceImage} from './index.js'
 
 //класс карточек место
 export class Card {
-	constructor(item, placeTemplate) {
+	constructor(item, placeTemplate, openPlaceImage) {
 		this._title = item.name;
 		this._link = item.src;
 		this._placeTemplate = placeTemplate;
+		this._openPlaceImage = openPlaceImage;
 	}
 
 	// функция клонирования разметки карточки
@@ -30,23 +32,23 @@ export class Card {
 		this.buttonDelPlace.closest(".place").remove();
 	}
 
-	//функция открытия картинки
-	_openPlaceImage(item) {
-		//находим узел img и его атрибут src
-		const placeSrcImage = this._link;
-		//открываем попап
-		openPopup(popupImgOpening);
-		//добавляем атрибут src
-		popupImg.setAttribute("src", placeSrcImage);
-		//находим элемент заголовка
-		const placeTitleImage = this._title;
-		//добавляем элементу текстовое значение
-		placeFigureCaption.textContent = placeTitleImage;
-		//находим у картинки атрибут alt
-		const placeAltImage = this._title + ".";
-		//добавляем атрибут alt
-		popupImg.setAttribute("alt", placeAltImage);
-	}
+	////функция открытия картинки
+	//_openPlaceImage(item) {
+	//	//находим узел img и его атрибут src
+	//	const placeSrcImage = this._link;
+	//	//открываем попап
+	//	openPopup(popupImgOpening);
+	//	//добавляем атрибут src
+	//	popupImg.setAttribute("src", placeSrcImage);
+	//	//находим элемент заголовка
+	//	const placeTitleImage = this._title;
+	//	//добавляем элементу текстовое значение
+	//	placeFigureCaption.textContent = placeTitleImage;
+	//	//находим у картинки атрибут alt
+	//	const placeAltImage = this._title + ".";
+	//	//добавляем атрибут alt
+	//	popupImg.setAttribute("alt", placeAltImage);
+	//}
 
 	_setEventListeners() {
 		//при нажатии лайка вызываем функцию
