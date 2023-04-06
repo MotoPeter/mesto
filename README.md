@@ -21,6 +21,8 @@
 - Figma
 - PerfectPixel
 - JavaScript
+- ООП и классы
+- Модули JS
 - [**Оптимизация изображений**](https://tinypng.com/)
 
 ## **Доработка**
