@@ -117,9 +117,8 @@ export class FormValidator {
 		});
 	}
 
-  //функция запуска валидации
-enableValidation () {	
+	//функция запуска валидации
+	enableValidation() {
 		this._setEventListeners();
-	};
-};
-
+	}
+}
