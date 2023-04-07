@@ -56,8 +56,8 @@ export class FormValidator {
 		});
 	}
 
-	//функция выключения кнопки кнопки
-	_offButton() {
+	//функция выключения кнопки
+	offButton() {
 		//кнопка неактивна
 		this._buttonElement.disabled = true;
 		//добавляем класс
@@ -81,29 +81,21 @@ export class FormValidator {
 		// Если есть хотя бы один невалидный инпут
 		if (this._hasInvalidInput()) {
 			//функция выключения кнопки
-			this._offButton(
-				this._buttonElement,
-				this._saveConditionHoverClass,
-				this._saveInactiveClass
-			);
+			this.offButton();
 		} else {
-			this._onButton(
-				this._buttonElement,
-				this._saveConditionHoverClass,
-				this._saveInactiveClass
-			);
+			this._onButton();
 		}
 	}
 
-	//функция сброса валидации
-	_resetValid() {
+	//метод  перебора инпутов для отключения валидации
+	disableValidationInputs() {
 		this._inputList.forEach((input) => {
 			this._hideInputError(input);
 		});
 	}
 
 	//функция слушателя
-	setEventListeners() {
+	_setEventListeners() {
 		// Находим все инпуты внутри формы
 		this._inputList = Array.from(
 			this._formElement.querySelectorAll(this._inputSelector)
@@ -113,8 +105,8 @@ export class FormValidator {
 		// перебираем инпуты
 		this._inputList.forEach((inputElement) => {
 			//функцию сброса ошибок валидации
-			this._resetValid();
-			this._offButton();
+			this.disableValidationInputs();
+			this.offButton();
 			//для каждого ставим событие на ввод
 			inputElement.addEventListener("input", () => {
 				//вызываем функцию проверки валидности
@@ -124,4 +116,10 @@ export class FormValidator {
 			});
 		});
 	}
-}
+
+  //функция запуска валидации
+enableValidation () {	
+		this._setEventListeners();
+	};
+};
+

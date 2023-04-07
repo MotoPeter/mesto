@@ -39,13 +39,13 @@ function createPlace(item, order = "append") {
 //обходим массив карточек вызывая функцию добавления карточки
 initialCards.forEach(createPlace);
 
-const cancelStandardBehavior = () => {
+(function () {
 	//при submit
 	addEventListener("submit", function (evt) {
 		//отменяем стандартную отправку формы
 		evt.preventDefault();
 	});
-};
+})();
 
 //ФУНКЦИЯ ОТКРЫТИЯ ПОПАПА
 function openPopup(popup) {
@@ -58,25 +58,19 @@ function openPopup(popup) {
 }
 
 //функция открытия картинки
-export function openPlaceImage(item) {
-	//находим узел img и его атрибут src
-	const placeSrcImage = this._link;
+export function openPlaceImage(title, link) {
 	//открываем попап
 	openPopup(popupImgOpening);
 	//добавляем атрибут src
-	popupImg.setAttribute("src", placeSrcImage);
-	//находим элемент заголовка
-	const placeTitleImage = this._title;
+	popupImg.setAttribute("src", link);
 	//добавляем элементу текстовое значение
-	placeFigureCaption.textContent = placeTitleImage;
-	//находим у картинки атрибут alt
-	const placeAltImage = this._title + ".";
+	placeFigureCaption.textContent = title;
 	//добавляем атрибут alt
-	popupImg.setAttribute("alt", placeAltImage);
+	popupImg.setAttribute("alt", `${title} .`);
 }
 
 //ФУНКЦИЯ ЗАКРЫТИЯ ПОПАПА
-function closePopap(popup) {
+function closePopup(popup) {
 	//удаляем класс и popup снова невидим
 	popup.classList.remove("popup_openend");
 	//удаляем слушатель
@@ -86,7 +80,7 @@ function closePopap(popup) {
 }
 
 //ЗАПИСИ в value ТЕКСТА ИЗ ПРОФИЛЯ
-function recordValueInput() {
+function recordProfileInputsValues() {
 	//из элемента с именем выделяем текст
 	const profileNameText = profileName.textContent;
 	//меняем значение value на текст из элемента с именем профиля
@@ -98,7 +92,7 @@ function recordValueInput() {
 }
 
 //функция получения value из инпутов
-function gettingValueInput(inputFirst, inputSecond) {
+function getValueInputs(inputFirst, inputSecond) {
 	//находим элемент первого ввода в popup
 	const valueInputFirst = inputFirst.value;
 	//находим элемент второго ввода в popup
@@ -109,23 +103,26 @@ function gettingValueInput(inputFirst, inputSecond) {
 //функция записи изменений в профиле
 function saveChangesProfile() {
 	//вызываем функцию получения value
-	const valueInput = gettingValueInput(profileInputName, profileInputOcupation);
+	const [nameInputValue, OcupationInputValue] = getValueInputs(
+		profileInputName,
+		profileInputOcupation
+	);
 	//присваиваем текстовому полю элемента с именем профиля новое имя из ввода popup
-	profileName.textContent = valueInput[0];
+	profileName.textContent = nameInputValue;
 	//присваиваем текстовому полю элемента с родом занятий новое значение из ввода popup
-	profileOcupation.textContent = valueInput[1];
+	profileOcupation.textContent = OcupationInputValue;
 	//вызываем функцию закрытия попапа
-	closePopap(popupProfileEdit);
+	closePopup(popupProfileEdit);
 }
 
 //функция добавления карточки
 function savePlaceNew() {
 	//вызываем функцию получения value
-	const popupInput = gettingValueInput(placeInputLocation, placeInputImg);
+	const popupInput = getValueInputs(placeInputLocation, placeInputImg);
 	//вызываем функцию создания карточки и передаем ей созданный массив
 	createPlace({ name: popupInput[0], src: popupInput[1] }, "prepend");
 	//вызываем функцию закрытия попапа
-	closePopap(popupPlaceAdd);
+	closePopup(popupPlaceAdd);
 }
 
 //при нажатии кнопки редактирования профиля
@@ -133,19 +130,11 @@ profileEditButton.addEventListener("click", function () {
 	//вызываем функцию открытия и обновления value инпутов
 	openPopup(popupProfileEdit);
 	//функция записи value текста из профиля
-	recordValueInput();
-	//вызываем функцию отмены отправки формы
-	cancelStandardBehavior();
-	//создаем элемент класса валидации
-	const formValidator = new FormValidator(formProfileEdit, validationConfig);
-	//запускаем метод класса валидации
-	formValidator.setEventListeners();
-	////функцию сброса ошибок валидации
-	//formValidator.resetValid();
-	//вызываем функцию отмены отправки формы
-	cancelStandardBehavior();
+	recordProfileInputsValues();
+	//метод сброса ошибок валидации
+	formValidatorProfileEdit.disableValidationInputs();
 	//делаем кнопку не активной
-	//formValidator.offButton();
+	formValidatorProfileEdit.offButton();
 });
 
 //при нажатии кнопки добавления места
@@ -154,16 +143,10 @@ placeAddButton.addEventListener("click", function () {
 	openPopup(popupPlaceAdd);
 	//сбрасываем значение формы
 	formPlaceAdd.reset();
-	//создаем элемент класса валидации
-	const formValidator = new FormValidator(formPlaceAdd, validationConfig);
-	//запускаем метод класса валидации
-	formValidator.setEventListeners();
-	//функцию сброса ошибок валидации
-	//formValidator.resetValid();
-	//вызываем функцию отмены отправки формы
-	cancelStandardBehavior();
+	//метод сброса ошибок валидации
+	formValidatorPlaceAdd.disableValidationInputs();
 	//делаем кнопку не активной
-	//formValidator.offButton();
+	formValidatorPlaceAdd.offButton();
 });
 
 //обходим кнопки закрытия
@@ -173,7 +156,7 @@ closeButtons.forEach((button) => {
 	//устанавливаем обработчик закрытия на крестик
 	button.addEventListener("click", function () {
 		//вызываем функцию закрытия попапа
-		closePopap(popup);
+		closePopup(popup);
 	});
 });
 
@@ -193,7 +176,7 @@ popupPlaceAdd.addEventListener("submit", function (evt) {
 //функция закрытия попапа по клику
 function closePopupClick(evt) {
 	if (evt.target.classList.contains("popup_openend")) {
-		closePopap(evt.target);
+		closePopup(evt.target);
 	}
 }
 
@@ -201,6 +184,19 @@ function closePopupClick(evt) {
 function closePopupEsc(evt) {
 	if (evt.key === "Escape") {
 		const popup = document.querySelector(".popup_openend");
-		closePopap(popup);
+		closePopup(popup);
 	}
 }
+
+//создаем элемент класса валидации формы изменений профиля
+const formValidatorProfileEdit = new FormValidator(
+	formProfileEdit,
+	validationConfig
+);
+//запускаем метод класса валидации
+formValidatorProfileEdit.enableValidation();
+
+//создаем элемент класса валидации формы добавления места
+const formValidatorPlaceAdd = new FormValidator(formPlaceAdd, validationConfig);
+//запускаем метод класса валидации
+formValidatorPlaceAdd.enableValidation();
