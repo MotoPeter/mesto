@@ -114,7 +114,7 @@ export class FormValidator {
 		this._inputList.forEach((inputElement) => {
 			//функцию сброса ошибок валидации
 			this._resetValid();
-      this._offButton();
+			this._offButton();
 			//для каждого ставим событие на ввод
 			inputElement.addEventListener("input", () => {
 				//вызываем функцию проверки валидности
