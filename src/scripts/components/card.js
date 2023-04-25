@@ -1,10 +1,10 @@
 //класс карточек место
-export class Card {
-	constructor(item, placeTemplate, openPlaceImage) {
+export default class Card {
+	constructor({item, openPlaceImage}, placeTemplate) {
 		this._title = item.name;
 		this._link = item.src;
 		this._placeTemplate = placeTemplate;
-		this.openPlaceImage = openPlaceImage;
+		this._openPlaceImage = openPlaceImage;
 	}
 
 	// функция клонирования разметки карточки
@@ -40,7 +40,7 @@ export class Card {
 		});
 		//при нажатии вызываем функцию открытия попапа картинки
 		this._buttonImagePlace.addEventListener("click", () => {
-			this.openPlaceImage(this._title, this._link);
+			this._openPlaceImage(this._title, this._link);
 		});
 	}
 
