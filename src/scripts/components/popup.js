@@ -24,7 +24,7 @@ export default class Popup {
 			this.closePopup();
 		});
 		//при клике на документ
-		document.addEventListener("click", (evt) => {
+		this._popup.addEventListener("click", (evt) => {
 			//если область клика содержит дочерний элемент - открытый попап
 			if (evt.target.classList.contains("popup_openend")) {
 				this.closePopup();

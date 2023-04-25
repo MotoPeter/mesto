@@ -3,14 +3,13 @@ export default class Section {
 	//передаем в конструктор массив элементов
 	//колбек
 	//селектор контейнера для добавления элемента в разметку
-	constructor({ items, renderer }, selector) {
-		this._items = items;
+	constructor({renderer} , selector) {
 		this._renderer = renderer;
 		this._container = document.querySelector(selector);
 	}
 	//перебираем массив карточек
-	renderAllElements() {
-		this._items.forEach((item) => {
+	renderAllElements(items) {
+		items.forEach((item) => {
 			this._renderer(item);
 		});
 	}

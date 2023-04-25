@@ -6,6 +6,7 @@ export default class PopupWithForm extends Popup {
 		super(popupSelector);
 		this._popupForm = this._popup.querySelector(".popup__form");
 		this._handleFormSubmit = handleFormSubmit;
+    this._inputList = this._popupForm.querySelectorAll(".popup__input");
 	}
 
 	//при наступлении события
@@ -20,7 +21,6 @@ export default class PopupWithForm extends Popup {
 	//функция получения value из инпутов
 	_getValueInputs() {
 		const formValues = {};
-		this._inputList = this._popupForm.querySelectorAll(".popup__input");
 		this._inputList.forEach((inputData) => {
 			formValues[inputData.name] = inputData.value;
 		});

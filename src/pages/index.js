@@ -1,21 +1,21 @@
-import "../../pages/index.css";
+import "./index.css";
 
-import { initialCards } from "../utils/constants.js";
-import { profileEditButton } from "../utils/constants.js";
-import { placeAddButton } from "../utils/constants.js";
-import { profileInputName } from "../utils/constants.js";
-import { profileInputOcupation } from "../utils/constants.js";
-import { placeTemplate } from "../utils/constants.js";
-import { formPlaceAdd } from "../utils/constants.js";
-import { formProfileEdit } from "../utils/constants.js";
-import { validationConfig } from "../utils/constants.js";
-import Card from "../components/card.js";
-import FormValidator from "../components/formValidator.js";
-import Section from "../components/section.js";
-import Popup from "../components/popup.js";
-import PopupWithImage from "../components/popupWithImage.js";
-import PopupWithForm from "../components/popupWithForm.js";
-import UserInfo from "../components/userInfo.js";
+import { initialCards } from "../scripts/utils/constants.js";
+import { profileEditButton } from "../scripts/utils/constants.js";
+import { placeAddButton } from "../scripts/utils/constants.js";
+import { profileInputName } from "../scripts/utils/constants.js";
+import { profileInputOcupation } from "../scripts/utils/constants.js";
+import { placeTemplate } from "../scripts/utils/constants.js";
+import { formPlaceAdd } from "../scripts/utils/constants.js";
+import { formProfileEdit } from "../scripts/utils/constants.js";
+import { validationConfig } from "../scripts/utils/constants.js";
+import Card from "../scripts/components/card.js";
+import FormValidator from "../scripts/components/formValidator.js";
+import Section from "../scripts/components/section.js";
+import Popup from "../scripts/components/popup.js";
+import PopupWithImage from "../scripts/components/popupWithImage.js";
+import PopupWithForm from "../scripts/components/popupWithForm.js";
+import UserInfo from "../scripts/components/userInfo.js";
 
 //отменяем стандартную отправку формы
 (function () {
@@ -26,39 +26,36 @@ import UserInfo from "../components/userInfo.js";
 	});
 })();
 
-//функция создания и вставки карточки в разметку
-function drawMarcup(initialCards) {
-	//создаем элемент класса отрисовки карточек
-	const cardList = new Section(
+const generateCard = (item) => {
+	const card = new Card(
 		{
-			//передаем начальный массив
-			items: initialCards,
-			//колбэк инструкция по связыванию с card
-			renderer: (item) => {
-				//создаем элемент класса карточек
-				const card = new Card(
-					{
-						item,
-						openPlaceImage: (title, link) =>
-							popupWithImage.openPlaceImage(title, link),
-					},
-					placeTemplate
-				);
-				//вызываем метод создания карточки
-				const place = card.generatePlace();
-				//вставляем в контейнер
-				cardList.addItem(place);
-			},
+			item,
+			openPlaceImage: (title, link) =>
+				popupWithImage.openPlaceImage(title, link),
 		},
-		//селектор контейнера для вставки карточек
-		".grid-places"
+		placeTemplate
 	);
-	//запускаем метод перебора карточек
-	cardList.renderAllElements();
-}
+	//вызываем метод создания карточки
+	const place = card.generatePlace();
+	return place;
+};
 
-//отрисовываем первоначальный массив карточек
-drawMarcup(initialCards.reverse());
+//создаем элемент класса отрисовки карточек
+const cardList = new Section(
+	{
+		//колбэк инструкция по связыванию с card
+		renderer: (item) => {
+			const place = generateCard(item);
+			//вставляем в контейнер
+			cardList.addItem(place);
+		},
+	},
+	//селектор контейнера для вставки карточек
+	".grid-places"
+);
+
+//запускаем метод перебора карточек
+cardList.renderAllElements(initialCards.reverse());
 
 //создаем элемент попапа открытия изображения
 const popupWithImage = new PopupWithImage(".popup_value_img");
@@ -88,9 +85,9 @@ function savePlaceNew(formValues) {
 	const src = formValues["link-foto"];
 	const name = formValues["place-name"];
 	//добавляем объкт с полученными значениями в массив карточек
-	initialCards.push({ name, src });
-	////создаем новую карточку и вставляем в разметку (последний элемент массива)
-	drawMarcup([initialCards.at(-1)]);
+	const newCard = generateCard({ name, src });
+	////создаем новую карточку и вставляем в разметку
+	cardList.addItem(newCard);
 	//закрываем попап со сбросом формы
 	popupFormPlaceAdd.closePopup();
 }
