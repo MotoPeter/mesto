@@ -21,7 +21,7 @@
 .place__image{aspect-ratio:1/1;border-radius:10px 10px 0 0;display:block;-o-object-fit:cover;object-fit:cover;width:282px}.place__image:before{background-color:#000;border:1px dotted #c8c8c8;border-radius:10px 10px 0 0;content:" ";height:282px;left:0;position:absolute;width:100%}.place__image:after{color:#646464;content:" Незагруженная картинка, на которой " attr(alt);font-size:24px;font-style:normal;font-weight:500;left:0;line-height:1.21;padding:10px;position:absolute;text-align:center;top:50%;transform:translateY(-50%)}
 .place__text{display:flex;justify-content:space-between;margin:26px 15px 26px 21px;max-width:241px}
 .place__title{font-size:24px;font-style:normal;font-weight:900;line-height:1.21;margin:0;max-width:190px;overflow:hidden;padding:0;text-overflow:ellipsis;white-space:nowrap}
-.place__like_active{background:url(35948469632d0421d697.svg);background-size:cover;height:19px;width:22px}
+.place__like_active{background:url(35948469632d0421d697.svg);height:19px;width:22px}
 .place__trash{position:absolute;right:20px;top:20px}
 .footer{display:flex;justify-content:space-between;margin:0 auto;max-width:880px}
 .footer__copyright{color:#545454;font-size:18px;font-style:normal;font-weight:400;line-height:1.22;margin:0 0 60px;padding:0}@media screen and (max-width:950px){.footer__copyright{margin-left:20px;margin-right:20px}}@media screen and (max-width:450px){.footer__copyright{font-size:14px;line-height:1.21;margin:0 0 36px 19px}}
@@ -45,4 +45,7 @@
 .popup__input-first{margin:0;padding-top:12px}
 .popup__input-error_active{visibility:inherit}
 .popup__save_inactive{opacity:.2}
+.profile__avatar-button{background-image:url(a6d6c2df4a04a9c8ed60.svg);background-position:50%;background-repeat:no-repeat;background-size:20px,20px;border:0;border-radius:50%;height:120px;opacity:0;position:absolute;transition:.8s ease;width:120px}.profile__avatar-button:hover{background-color:#000;opacity:.8}
+.like{display:flex;flex-direction:column;height:35px;margin:0;padding:0}
+.place__like-sum{color:#000;display:block;font-family:Inter,Source Sans Pro,Arial,sans-serif;font-size:13px;font-weight:400;line-height:16px;text-align:center}
 
