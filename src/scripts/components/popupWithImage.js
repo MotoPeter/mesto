@@ -16,7 +16,7 @@ export default class PopupWithImage extends Popup {
 		this._placeFigureCaption.textContent = name;
 		//добавляем атрибут alt
 		this._popupImg.setAttribute("alt", `${name} .`);
-    //открываем попап
+		//открываем попап
 		super.openPopup();
 	}
 }

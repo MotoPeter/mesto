@@ -3,7 +3,7 @@ export default class Section {
 	//передаем в конструктор массив элементов
 	//колбек
 	//селектор контейнера для добавления элемента в разметку
-	constructor({renderer} , selector) {
+	constructor({ renderer }, selector) {
 		this._renderer = renderer;
 		this._container = document.querySelector(selector);
 	}

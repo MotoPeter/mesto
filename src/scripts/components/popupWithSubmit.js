@@ -20,6 +20,7 @@ export default class PopupWithSubmit extends Popup {
 		});
 	}
 
+	//получение элемента карточки и ответа сервера
 	getId(item, place) {
 		this._placeId = item._id;
 		this._place = place;
