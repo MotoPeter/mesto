@@ -1,6 +1,6 @@
 import "./index.css";
 
-import { initialCards } from "../scripts/utils/constants.js";
+//import { initialCards } from "../scripts/utils/constants.js";
 import { profileEditButton } from "../scripts/utils/constants.js";
 import { placeAddButton } from "../scripts/utils/constants.js";
 import { profileInputName } from "../scripts/utils/constants.js";
@@ -8,7 +8,9 @@ import { profileInputOcupation } from "../scripts/utils/constants.js";
 import { placeTemplate } from "../scripts/utils/constants.js";
 import { formPlaceAdd } from "../scripts/utils/constants.js";
 import { formProfileEdit } from "../scripts/utils/constants.js";
+import { formAvatarEdit } from "../scripts/utils/constants.js";
 import { validationConfig } from "../scripts/utils/constants.js";
+import { avatarEditButton } from "../scripts/utils/constants.js";
 import Card from "../scripts/components/card.js";
 import FormValidator from "../scripts/components/formValidator.js";
 import Section from "../scripts/components/section.js";
@@ -16,6 +18,8 @@ import Popup from "../scripts/components/popup.js";
 import PopupWithImage from "../scripts/components/popupWithImage.js";
 import PopupWithForm from "../scripts/components/popupWithForm.js";
 import UserInfo from "../scripts/components/userInfo.js";
+import Api from "../scripts/components/api.js";
+import PopupWithSubmit from "../scripts/components/popupWithSubmit";
 
 //отменяем стандартную отправку формы
 (function () {
@@ -26,17 +30,78 @@ import UserInfo from "../scripts/components/userInfo.js";
 	});
 })();
 
+//токен для авторизации
+const token = "6ea24768-e3b3-4cce-a68a-3bff993d63e5";
+//переменная для сохранения id пользователя
+let userId;
+//создаем элемент api
+const api = new Api("https://nomoreparties.co/v1/cohort-66", {
+	authorization: token,
+	"Content-Type": "application/json",
+});
+
+//отображаем полученные с сервера карточки и данные пользователя
+Promise.all([api.getInitialCards(), api.getUserInfo()])
+	.then(([initialCards, userInfo]) => {
+		userId = userInfo._id;
+		cardList.renderAllElements(initialCards.reverse());
+		showChangesProfile(userInfo);    
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+
+//функция создания карточки
 const generateCard = (item) => {
+	//создаем элемент класса card
 	const card = new Card(
 		{
+			//передаем массив из названия и ссылки
 			item,
+			//колбэк открытия попапа картинки
 			openPlaceImage: (title, link) =>
 				popupWithImage.openPlaceImage(title, link),
 		},
-		placeTemplate
+		//шаблон еарточки
+		placeTemplate,
+		//колбэк удадения карточки
+		() => {
+			//открытие попапа удаления
+			popupDeletePlace.openPopup();
+			//передаем id и карточку
+			popupDeletePlace.getId(item, place);
+		},
+		//id пользователя, создавшего карточку
+		userId,
+    //установка лайка
+    () => {
+      //запрос на сервер
+      api.putLike(item)
+      .then((res) => {
+        //метод проверки лайка
+				card.checkLike(res);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+    },
+    //удаление лайка
+    () => {
+      //запрос на сервер
+      api.delLike(item)
+      .then((res) => {
+        //проверка лайка
+				card.checkLike(res);
+        
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+    }
 	);
 	//вызываем метод создания карточки
 	const place = card.generatePlace();
+	//возвращаем готовую карточку
 	return place;
 };
 
@@ -54,20 +119,49 @@ const cardList = new Section(
 	".grid-places"
 );
 
-//запускаем метод перебора карточек
-cardList.renderAllElements(initialCards.reverse());
-
 //создаем элемент попапа открытия изображения
 const popupWithImage = new PopupWithImage(".popup_value_img");
-//метод слушателей клика
 popupWithImage.setEventListeners();
 
 //элемент класса попап - новая карточка
 const popupPlaceAdd = new Popup(".popup_value_place-add");
-//слушатели
 popupPlaceAdd.setEventListeners();
+
 //попап редактирования профиля
 const popupEditProfile = new Popup(".popup_value_user-edit");
+
+//попап удаления карточки
+const popupDeletePlace = new PopupWithSubmit(
+	".popup_value_delete-place",
+	(placeId, place) => {
+		api
+			.deleteCard(placeId)
+			.then(() => {
+				place.remove();
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+);
+
+popupDeletePlace.setEventListeners();
+
+//попап редактирования аватара
+const popupEditAvatar = new Popup(".popup_value_avatar");
+popupEditAvatar.setEventListeners();
+
+//при нажатии кнопки редактирования аватара
+avatarEditButton.addEventListener("click", () => {
+	//вызываем метод открытия попапа
+	popupEditAvatar.openPopup();
+	//вызываем метод слушателей
+	popupEditAvatar.setEventListeners();
+	//метод сброса ошибок валидации
+	formValidatorProfileEdit.disableValidationInputs();
+	//делаем кнопку не активной
+	formValidatorProfileEdit.offButton();
+});
 
 //при нажатии кнопки добавления места
 placeAddButton.addEventListener("click", function () {
@@ -81,19 +175,27 @@ placeAddButton.addEventListener("click", function () {
 
 //функция добавления новой карточки
 function savePlaceNew(formValues) {
-	////раскладываем по элементам значения ключей объекта
-	const src = formValues["link-foto"];
-	const name = formValues["place-name"];
-	//добавляем объкт с полученными значениями в массив карточек
-	const newCard = generateCard({ name, src });
-	////создаем новую карточку и вставляем в разметку
-	cardList.addItem(newCard);
+	//отправляем данные на сервер
+	api
+		.addNewCard(formValues)
+		.then((formValues) => {
+			//создаем новую карточку и вставляем в разметку
+			const newCard = generateCard(formValues);
+			cardList.addItem(newCard);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 	//закрываем попап со сбросом формы
 	popupFormPlaceAdd.closePopup();
 }
 
 //создаем элемент
-const userInfo = new UserInfo(".profile__name", ".profile__ocupation");
+const userInfo = new UserInfo(
+	".profile__name",
+	".profile__ocupation",
+	".profile__avatar"
+);
 
 //ЗАПИСИ в value ТЕКСТА ИЗ ПРОФИЛЯ
 function recordProfileInputsValues() {
@@ -107,10 +209,31 @@ function recordProfileInputsValues() {
 
 //функция записи изменений в профиле
 function saveChangesProfile(formValues) {
+	//console.log(formValues);
 	//метод записи изменений
 	userInfo.setUserInfo(formValues);
+	//userInfo.setUserAvatar(formValues);
+	//отправка изменений на сервер
+	api.editProfile(formValues);
 	//закрываем попап
 	popupFormEditProfile.closePopup();
+}
+
+//функция записи изменений аватара
+function saveChangesAvatar(formValues) {
+	//console.log(formValues);
+	//метод записи изменений
+	userInfo.setUserAvatar(formValues);
+	//отправка изменений на сервер
+	api.editAvatar(formValues);
+	//закрываем попап
+	popupFormEditAvatar.closePopup();
+}
+
+//функция отображения данных пользователя от сервера
+function showChangesProfile(formValues) {
+	//метод записи изменений
+	userInfo.showUserInfo(formValues);
 }
 
 //при нажатии кнопки редактирования профиля
@@ -137,7 +260,6 @@ const popupFormPlaceAdd = new PopupWithForm({
 		savePlaceNew(formValues);
 	},
 });
-
 //слушатель для формы новой карточки
 popupFormPlaceAdd.setEventListeners();
 
@@ -149,9 +271,19 @@ const popupFormEditProfile = new PopupWithForm({
 		saveChangesProfile(formValues);
 	},
 });
-
 //слушатель формы редактирования профиля
 popupFormEditProfile.setEventListeners();
+
+//элемент форма попапа редактирования аватара
+const popupFormEditAvatar = new PopupWithForm({
+	popupSelector: ".popup_value_avatar",
+	handleFormSubmit: (formValues) => {
+		//функция записи изменений
+		saveChangesAvatar(formValues);
+	},
+});
+//слушатель формы редактирования аватара
+popupFormEditAvatar.setEventListeners();
 
 //создаем элемент класса валидации формы изменений профиля
 const formValidatorProfileEdit = new FormValidator(
@@ -160,6 +292,14 @@ const formValidatorProfileEdit = new FormValidator(
 );
 //запускаем метод класса валидации
 formValidatorProfileEdit.enableValidation();
+
+//создаем элемент класса валидации формы изменения аватара
+const formValidatorAvatarEdit = new FormValidator(
+	formAvatarEdit,
+	validationConfig
+);
+//запускаем метод класса валидации
+formValidatorAvatarEdit.enableValidation();
 
 //создаем элемент класса валидации формы добавления места
 const formValidatorPlaceAdd = new FormValidator(formPlaceAdd, validationConfig);

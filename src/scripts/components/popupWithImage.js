@@ -1,5 +1,6 @@
 import Popup from "./popup.js";
 
+//наследуем от попапа для работы методов открытия и закрытия
 export default class PopupWithImage extends Popup {
 	constructor(popupSelector) {
 		super(popupSelector);

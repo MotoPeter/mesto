@@ -27,6 +27,7 @@ export default class PopupWithForm extends Popup {
 		return formValues;
 	}
 
+  //метод закрытия попапа и сброса значений формы
 	closePopup() {
 		super.closePopup();
 		this._popupForm.reset();

@@ -1,20 +1,3 @@
-//создаем массив карточек, который будет использоваться при загрузке
-const altay = new URL("../../images/altay.jpg", import.meta.url);
-const baykal = new URL("../../images/baykal.JPG", import.meta.url);
-const dombay = new URL("../../images/dombay.JPG", import.meta.url);
-const kolyma = new URL("../../images/kolima.JPG", import.meta.url);
-const krasnoyarskayGES = new URL("../../images/krasnoyarskayGES.JPG", import.meta.url);
-const onega = new URL("../../images/onega.jpg", import.meta.url);
-
-export const initialCards = [
-	{ name: "Алтай", src: altay },
-	{ name: "Байкал", src: baykal },
-	{ name: "Домбай", src: dombay },
-	{ name: "Колыма", src: kolyma },
-	{ name: "Красноярская ГЭС", src: krasnoyarskayGES },
-	{ name: "Онежское озеро", src: onega },
-];
-
 //находим в DOM кнопку редактирования профиля (открытия попап)
 export const profileEditButton = document.querySelector(
 	".profile__edit-button"
@@ -39,6 +22,10 @@ export const formPlaceAdd = document
 export const formProfileEdit = document
 	.querySelector(".popup_value_user-edit")
 	.querySelector(".popup__form");
+//форма редактирования аватара
+export const formAvatarEdit = document
+	.querySelector(".popup_value_avatar")
+	.querySelector(".popup__form");
 //конфиг со значениями, используемыми при валидации
 export const validationConfig = {
 	inputSelector: ".popup__input",
@@ -48,3 +35,7 @@ export const validationConfig = {
 	saveConditionHoverClass: "popup__save_condition_hover",
 	saveInactiveClass: "popup__save_inactive",
 };
+//
+export const avatarEditButton = document.querySelector(
+	".profile__avatar-button"
+);

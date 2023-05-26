@@ -19,15 +19,12 @@
 			</header>
 			<main class="content">
 				<section class="profile">
-					<img
-						src="<%=require('./images/avatar.jpg')%>"
-						alt="аватар"
-						class="profile__avatar"
-					/>
+					<img src="" alt="аватар" class="profile__avatar" />
+					<button class="profile__avatar-button"></button>
 					<div class="profile__info">
 						<div class="profile__text">
-							<h1 class="profile__name">Жак-Ив Кусто</h1>
-							<p class="profile__ocupation">Исследователь океана</p>
+							<h1 class="profile__name"></h1>
+							<p class="profile__ocupation"></p>
 						</div>
 						<button
 							type="button"
@@ -56,12 +53,15 @@
 							</button>
 							<div class="place__text">
 								<h2 class="place__title"></h2>
-								<button
-									type="button"
-									class="place__like button button_condition_hover"
-								>
-									<img src="<%=require('./images/like.svg')%>" alt="лайк." />
-								</button>
+								<div class="like">
+									<button
+										type="button"
+										class="place__like button button_condition_hover"
+									>
+										<img src="<%=require('./images/like.svg')%>" alt="лайк." />
+									</button>
+									<span class="place__like-sum">5</span>
+								</div>
 							</div>
 							<button
 								type="button"
@@ -91,7 +91,7 @@
 							<label class="popup__label">
 								<input
 									id="name-input"
-									name="user-name"
+									name="name"
 									value=""
 									placeholder="Имя"
 									required
@@ -106,7 +106,7 @@
 							<label class="popup__label">
 								<input
 									id="ocupation-input"
-									name="user-ocupation"
+									name="about"
 									value=""
 									placeholder="Род занятий"
 									required
@@ -141,7 +141,7 @@
 							<label class="popup__label">
 								<input
 									id="place-input"
-									name="place-name"
+									name="name"
 									placeholder="Название"
 									autocomplete="off"
 									class="popup__input popup__input_data_location popup__input-first"
@@ -155,7 +155,7 @@
 							<label class="popup__label">
 								<input
 									id="link-input"
-									name="link-foto"
+									name="link"
 									placeholder="Ссылка на картинку"
 									autocomplete="off"
 									class="popup__input_data_link-foto popup__input"
@@ -185,6 +185,51 @@
 						<img src="#" class="figure__img" alt="" />
 						<figcaption class="figure__caption"></figcaption>
 					</figure>
+				</div>
+			</div>
+			<div class="popup popup_value_delete-place">
+				<div class="popup__container">
+					<button
+						type="button"
+						class="popup__close popup__close_value_delete-place button button_condition_hover"
+					></button>
+					<h3 class="popup__title">Вы уверены?</h3>
+					<form name="delete-place" class="popup__form" novalidate>
+						<button
+							type="submit"
+							class="popup__del popup__save button popup__save_condition_hover"
+						>
+							Да
+						</button>
+					</form>
+				</div>
+			</div>
+			<div class="popup popup_value_avatar">
+				<div class="popup__container">
+					<button
+						type="button"
+						class="popup__close popup__close_value_avatar button button_condition_hover"
+					></button>
+					<h3 class="popup__title">Обновить аватар</h3>
+					<form class="popup__form" name="avatar-edit" novalidate>
+						<fieldset class="popup__fieldset">
+							<input
+								type="url"
+								name="avatar"
+								id="avatar-input"
+								placeholder="Ссылка на картинку"
+								class="popup__input popup__input_data_avatar"
+								required
+							/>
+							<span class="avatar-input-error popup__input-error"></span>
+							<button
+								type="submit"
+								class="popup__save button popup__save_condition_hover"
+							>
+								Сохранить
+							</button>
+						</fieldset>
+					</form>
 				</div>
 			</div>
 		</div>
