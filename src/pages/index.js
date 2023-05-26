@@ -176,6 +176,7 @@ placeAddButton.addEventListener("click", function () {
 //функция добавления новой карточки
 function savePlaceNew(formValues) {
 	//отправляем данные на сервер
+  popupFormPlaceAdd.changeButtonText('Сохранение...')
 	api
 		.addNewCard(formValues)
 		.then((formValues) => {
@@ -185,7 +186,10 @@ function savePlaceNew(formValues) {
 		})
 		.catch((err) => {
 			console.log(err);
-		});
+		})
+    .finally(() => {
+      popupFormPlaceAdd.changeButtonText('Создать')
+    });
 	//закрываем попап со сбросом формы
 	popupFormPlaceAdd.closePopup();
 }
@@ -212,9 +216,15 @@ function saveChangesProfile(formValues) {
 	//console.log(formValues);
 	//метод записи изменений
 	userInfo.setUserInfo(formValues);
-	//userInfo.setUserAvatar(formValues);
+  popupFormEditProfile.changeButtonText('Сохранение...')
 	//отправка изменений на сервер
-	api.editProfile(formValues);
+	api.editProfile(formValues)
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
+    popupFormEditProfile.changeButtonText('Сохранить')
+  });;
 	//закрываем попап
 	popupFormEditProfile.closePopup();
 }
@@ -224,8 +234,16 @@ function saveChangesAvatar(formValues) {
 	//console.log(formValues);
 	//метод записи изменений
 	userInfo.setUserAvatar(formValues);
+  popupEditAvatar.changeButtonText('Сохранение...')
 	//отправка изменений на сервер
-	api.editAvatar(formValues);
+	api.editAvatar(formValues)
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
+    popupEditAvatar.changeButtonText('Сохранить')
+  });;
+  popupEditAvatar;
 	//закрываем попап
 	popupFormEditAvatar.closePopup();
 }
