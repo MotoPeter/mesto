@@ -152,7 +152,6 @@ const popupDeletePlace = new PopupWithSubmit(
 			});
 	}
 );
-
 popupDeletePlace.setEventListeners();
 
 //попап редактирования аватара
