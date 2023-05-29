@@ -69,7 +69,8 @@ const generateCard = (item) => {
 			//открытие попапа удаления
 			popupDeletePlace.openPopup();
 			//передаем id и карточку
-			popupDeletePlace.getId(item, place);
+			popupDeletePlace.getId(card);
+			//метод удаления карточки
 		},
 		//id пользователя, создавшего карточку
 		userId,
@@ -81,6 +82,7 @@ const generateCard = (item) => {
 				.then((res) => {
 					//метод проверки лайка
 					card.checkLike(res);
+					card.pressLikeButton();
 				})
 				.catch((err) => {
 					console.log(err);
@@ -94,6 +96,7 @@ const generateCard = (item) => {
 				.then((res) => {
 					//проверка лайка
 					card.checkLike(res);
+					card.deleteLike();
 				})
 				.catch((err) => {
 					console.log(err);
@@ -130,15 +133,19 @@ popupPlaceAdd.setEventListeners();
 
 //попап редактирования профиля
 const popupEditProfile = new Popup(".popup_value_user-edit");
+//вызываем метод слушателей
+popupEditProfile.setEventListeners();
 
 //попап удаления карточки
 const popupDeletePlace = new PopupWithSubmit(
 	".popup_value_delete-place",
-	(placeId, place) => {
+	(card) => {
 		api
-			.deleteCard(placeId)
+			.deleteCard(card._item._id)
 			.then(() => {
-				place.remove();
+				//вызываем метод удаления карточки
+				card.delPlace();
+				popupDeletePlace.closePopup();
 			})
 			.catch((err) => {
 				console.log(err);
@@ -156,12 +163,10 @@ popupEditAvatar.setEventListeners();
 avatarEditButton.addEventListener("click", () => {
 	//вызываем метод открытия попапа
 	popupEditAvatar.openPopup();
-	//вызываем метод слушателей
-	popupEditAvatar.setEventListeners();
 	//метод сброса ошибок валидации
 	formValidatorProfileEdit.disableValidationInputs();
 	//делаем кнопку не активной
-	formValidatorProfileEdit.offButton();
+	formValidatorAvatarEdit.offButton();
 });
 
 //при нажатии кнопки добавления места
@@ -184,6 +189,8 @@ function savePlaceNew(formValues) {
 			//создаем новую карточку и вставляем в разметку
 			const newCard = generateCard(formValues);
 			cardList.addItem(newCard);
+			//закрываем попап со сбросом формы
+			popupFormPlaceAdd.closePopup();
 		})
 		.catch((err) => {
 			console.log(err);
@@ -191,8 +198,6 @@ function savePlaceNew(formValues) {
 		.finally(() => {
 			popupFormPlaceAdd.changeButtonText("Создать");
 		});
-	//закрываем попап со сбросом формы
-	popupFormPlaceAdd.closePopup();
 }
 
 //создаем элемент
@@ -214,55 +219,54 @@ function recordProfileInputsValues() {
 
 //функция записи изменений в профиле
 function saveChangesProfile(formValues) {
-	//console.log(formValues);
-	//метод записи изменений
-	userInfo.setUserInfo(formValues);
 	popupFormEditProfile.changeButtonText("Сохранение...");
 	//отправка изменений на сервер
 	api
 		.editProfile(formValues)
+		.then((formValues) => {
+			//метод записи изменений
+			userInfo.setUserInfo(formValues);
+			//закрываем попап
+			popupFormEditProfile.closePopup();
+		})
 		.catch((err) => {
 			console.log(err);
 		})
 		.finally(() => {
 			popupFormEditProfile.changeButtonText("Сохранить");
 		});
-	//закрываем попап
-	popupFormEditProfile.closePopup();
 }
 
 //функция записи изменений аватара
 function saveChangesAvatar(formValues) {
-	//console.log(formValues);
-	//метод записи изменений
-	userInfo.setUserAvatar(formValues);
-	popupEditAvatar.changeButtonText("Сохранение...");
+	popupFormEditAvatar.changeButtonText("Сохранение...");
 	//отправка изменений на сервер
 	api
 		.editAvatar(formValues)
+		.then((formValues) => {
+			//метод записи изменений
+			userInfo.setUserAvatar(formValues);
+			//закрываем попап
+			popupFormEditAvatar.closePopup();
+		})
 		.catch((err) => {
 			console.log(err);
 		})
 		.finally(() => {
-			popupEditAvatar.changeButtonText("Сохранить");
+			popupFormEditAvatar.changeButtonText("Сохранить");
 		});
-	popupEditAvatar;
-	//закрываем попап
-	popupFormEditAvatar.closePopup();
 }
 
 //функция отображения данных пользователя от сервера
 function showChangesProfile(formValues) {
 	//метод записи изменений
-	userInfo.showUserInfo(formValues);
+	userInfo.setUserInfo(formValues);
 }
 
 //при нажатии кнопки редактирования профиля
 profileEditButton.addEventListener("click", () => {
 	//вызываем метод открытия попапа
 	popupEditProfile.openPopup();
-	//вызываем метод слушателей
-	popupEditProfile.setEventListeners();
 	//функция записи value текста из профиля
 	recordProfileInputsValues();
 	//метод сброса ошибок валидации

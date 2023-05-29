@@ -7,7 +7,6 @@ export default class Popup {
 		this._popupCloseButton = this._popup.querySelector(".popup__close");
 		//привзываем закрытие esc к значению this
 		this._handleEscClose = this._handleEscClose.bind(this);
-		this._buttonSubmit = this._popup.querySelector(".popup__save");
 	}
 
 	//метод открытия попапа
@@ -46,10 +45,5 @@ export default class Popup {
 		if (evt.key === "Escape") {
 			this.closePopup();
 		}
-	}
-
-	//метод смены надписи кнопки
-	changeButtonText(text) {
-		this._buttonSubmit.textContent = text;
 	}
 }

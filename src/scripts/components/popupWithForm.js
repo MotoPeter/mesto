@@ -6,6 +6,7 @@ export default class PopupWithForm extends Popup {
 		this._popupForm = this._popup.querySelector(".popup__form");
 		this._handleFormSubmit = handleFormSubmit;
 		this._inputList = this._popupForm.querySelectorAll(".popup__input");
+		this._buttonSubmit = this._popupForm.querySelector(".popup__save");
 	}
 
 	//при наступлении события
@@ -30,5 +31,10 @@ export default class PopupWithForm extends Popup {
 	closePopup() {
 		super.closePopup();
 		this._popupForm.reset();
+	}
+
+	//метод смены надписи кнопки
+	changeButtonText(text) {
+		this._buttonSubmit.textContent = text;
 	}
 }

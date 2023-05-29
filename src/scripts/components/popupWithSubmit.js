@@ -13,17 +13,16 @@ export default class PopupWithSubmit extends Popup {
 	//наследуем метод слушателя
 	setEventListeners() {
 		super.setEventListeners();
-		//  //при сабмите формы
+		//при сабмите формы
 		this._form.addEventListener("submit", () => {
-			super.closePopup();
-			this._deleteCard(this._placeId, this._place);
+			this._deleteCard(this._place);
 		});
 	}
 
 	//получение элемента карточки и ответа сервера
-	getId(item, place) {
-		this._placeId = item._id;
-		this._place = place;
+	getId(card) {
+		this._placeId = card._item._id;
+		this._place = card;
 		return this._placeId, this._place;
 	}
 }

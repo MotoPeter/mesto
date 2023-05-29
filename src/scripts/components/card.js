@@ -34,10 +34,20 @@ export default class Card {
 		return place;
 	}
 
+	//метод удаления карточки
+	delPlace() {
+		this._placeElement.remove();
+	}
+
 	//метод отображения лайка
-	_pressLikeButton() {
-		//добавляем(убираем) класс
+	pressLikeButton() {
+		//добавляем класс
 		this._placeLikeButton.classList.add("place__like_active");
+	}
+
+	//метод удаления лайка
+	deleteLike() {
+		this._placeLikeButton.classList.remove("place__like_active");
 	}
 
 	//проверка лайка
@@ -64,7 +74,7 @@ export default class Card {
 			this._putOrNot = this._arrUsersLike.includes(this._userId);
 			if (this._putOrNot) {
 				//закрашиваем лайк
-				this._pressLikeButton();
+				this.pressLikeButton();
 			}
 		}
 	}
@@ -74,15 +84,11 @@ export default class Card {
 		this._placeLikeButton.addEventListener("click", () => {
 			//если пользоваетеля нет в массиве поставивших лайк
 			if (!this._putOrNot) {
-				//кольюэк постановки лайка
+				//колбэк постановки лайка
 				this._putLike();
-				//закрашиваем лайк
-				this._pressLikeButton();
 			} else {
 				//иначе колбэк удаления лайка
 				this._delLike();
-				//убираем закрашивание лайка
-				this._placeLikeButton.classList.remove("place__like_active");
 			}
 		});
 		//при нажатии вызываем функцию удаления
